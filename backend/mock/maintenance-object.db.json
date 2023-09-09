@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "Pumpe"
+    },
+    {
+        "id": 2,
+        "name": "Ventil"
+    },
+    {
+        "id": 4,
+        "name": "Raum-Controller"
+    }
+]
