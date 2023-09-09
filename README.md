@@ -21,7 +21,7 @@ Ziel ist es eine Multi-Tenancy-Anwendung bereitzustellen. Die Applikation soll d
 
 - Prometheus / Grafana: Das Monitoring- und Alarmierungssystem Prometheus wird genutzt, um die Containerumgebung zu überwachen. Grafana kann gut mit Prometheus integriert werden und wird zur Visualisierung genutzt.
 
-![Architektur](img/architecture.png)
+  <img src="img/architecture.png" alt="Architektur" width="300"/>
 
 # Teil 2 (Sturm)
 
