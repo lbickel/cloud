@@ -1,0 +1,13 @@
+GET http://localhost:4000/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6IlRlbmFudDEiLCJpYXQiOjE2OTQxOTU2NTksImV4cCI6MTY5NDE5OTI1OX0.rFWvwob3DdQEVIPFov7lbqYxE0KHfzJ9RoW3N37vojU
+
+
+###
+GET http://localhost:3000/maintenance-report/2021
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQyNTg0MzgsImV4cCI6MTY5NDI2MjAzOH0.IfUscZQAb9dinkM_s6PYDqs76tDheLwt6AJoq_6qko0
+
+###
+POST http://localhost:3000/auth
+Content-Type: application/json
+
+{"username": "user1", "password":"password1"}
