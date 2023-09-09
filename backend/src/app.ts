@@ -7,7 +7,6 @@ import ApiMaintenanceObject from "../routes/maintenance-object.routes";
 import ApiMaintenanceReport from "../routes/maintenance-report.routes";
 import { buildSchema } from "type-graphql";
 
-import {resolvers} from "../node_modules/@genrated/typegraphql-prisma"
 import { PrismaClient } from "@prisma/client";
 import Authentication from "../routes/auth.routes";
 
@@ -43,19 +42,3 @@ const server = app.listen(port, () => {
     }
 
 });
-
-async function main() {
-    const schema = await buildSchema({
-        resolvers,
-        emitSchemaFile: true,
-    });
-}
-
-main();
-
-function createContext(req:Request, res:Response) {
-    
-    return {
-        prisma,
-    };
-}
