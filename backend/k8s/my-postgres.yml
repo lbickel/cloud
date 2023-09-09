@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    app: my-postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      initContainers:
+        - name: init-container-data
+          image: curlimages/curl
+          args: 
+            - "-o"
+            - "/tmp/data/init.sql"
+            - "https://raw.githubusercontent.com/lbickel/cloud/multitenant-dev/backend/sql/sql-init.sql"
+          volumeMounts:
+            - name: data-volume
+              mountPath: "/tmp/data/"
+      containers:
+      - name: postgres
+        image: postgres:latest
+        env:
+          - name: POSTGRES_DB
+            value: "postgres"
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+        ports:
+          - containerPort: 5432
+        volumeMounts:
+          - name: data-volume
+            mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+        - name: data-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
