@@ -56,7 +56,7 @@ export class TenantConnectionResolver {
         return new Promise<PrismaClient>((resolve, reject) => {
 
             //TODO: Rework required!!!!
-            const tenantConnection = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_URL+tenantID }}});
+            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'my-postgres-service'+tenantID }}});
 
             // console.log(tenantConnection);
 
