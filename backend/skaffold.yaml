@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
     - image: my-multitenant-app
+      context: app
       docker:
         dockerfile: Dockerfile
 manifests:
