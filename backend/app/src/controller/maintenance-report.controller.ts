@@ -18,13 +18,17 @@ export default class MaintenanceReportController {
 
     public async findMaintenanceReportById(tenantId: string, id: string): Promise<MaintenanceReport> {
         const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
-
         return this._maintenanceReportRepository.findMaintenanceReportById(tenantConnection, id);
     }
 
     public async findMaintenanceReportByYear(tenantId: string, year: number): Promise<MaintenanceReport> {
         const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
         return this._maintenanceReportRepository.findMaintenanceReportByYear(tenantConnection, year);
+    }
+
+    public async getAllMaintenanceReports(tenantId: string): Promise<MaintenanceReport[]> {
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        return this._maintenanceReportRepository.allMaintenanceReports(tenantConnection);
     }
 
 }

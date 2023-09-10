@@ -32,8 +32,15 @@ Delete http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
 
 
-###
-GET http://localhost/maintenance-report/2021
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDI5NDYsImV4cCI6MTY5NDM0NjU0Nn0.KawZnaHTClV0xosj4T6qG6u6fRryOt_SCu07PkxE-as
+### Get all Maintenance Reports
+GET http://localhost/maintenance-report
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
 
+### Get Maintenance Reports of year
+GET http://localhost/maintenance-report/?year=2021
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
+
+### Get specific Maintenance Report
+GET http://localhost/maintenance-report/9c896e11-930f-48f6-80db-0db1a893557c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
 

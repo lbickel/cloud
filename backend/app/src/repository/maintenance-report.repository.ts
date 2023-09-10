@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 
 export interface MaintenanceReport {
     id: string,
@@ -15,10 +16,10 @@ export interface MaintenanceReportEntry {
 
 export interface MaintenanceReportRepository {
 
-    //allMaintenanceReport(): Promise<MaintenanceReport[]>;
+    allMaintenanceReports(_prisma:PrismaClient): Promise<MaintenanceReport[]>;
 
-    findMaintenanceReportById(dbConnection:any, id: string):Promise<MaintenanceReport>;
-    findMaintenanceReportByYear(dbConnection:any, year: number):Promise<MaintenanceReport>;
+    findMaintenanceReportById(_prisma:PrismaClient, id: string):Promise<MaintenanceReport>;
+    findMaintenanceReportByYear(_prisma:PrismaClient, year: number):Promise<MaintenanceReport>;
 
 
 }

@@ -19,20 +19,63 @@ export default class ApiMaintenanceReport extends ApiRoutesBase {
 
     protected initRoutes(): void {
 
-        this.router.get("/maintenance-report/:year", AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+        this.router.get("/maintenance-report", AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+            const yearQuery= req.query.year as string;
+            let year: number = NaN;
+            
+            if (yearQuery !== null) {
+                year = Number.parseInt(yearQuery);
 
-            const year = Number.parseInt(req.params.year);
+            }
 
-            console.log(`year ${year}`);
+            this._tenantUtils.getTenantIdFromResponse(res)
+            .then(tenantID => {
 
-            if (year == null) {
+
+                if(Number.isNaN(year)) {
+                    this._maintenanceReportController.getAllMaintenanceReports(tenantID).
+                    then(report => {
+                        res.status(200).json(report);
+    
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
+
+                }else {
+                    this._maintenanceReportController.findMaintenanceReportByYear(tenantID, year).
+                    then(report => {
+                        res.status(200).json(report);
+    
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
+                }
+
+
+
+            }).catch(error => {
+                console.error(error);
+                res.sendStatus(400);
+
+            });
+
+        });
+
+ 
+        this.router.get("/maintenance-report/:id", AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+
+            const id = req.params.id;
+
+            if (id == null) {
                 res.status(400).send();
             }
 
             this._tenantUtils.getTenantIdFromResponse(res)
             .then(tenantID => {
 
-                this._maintenanceReportController.findMaintenanceReportByYear(tenantID, year).
+                this._maintenanceReportController.findMaintenanceReportById(tenantID, id).
                 then(report => {
                     res.status(200).json(report);
 
@@ -47,10 +90,6 @@ export default class ApiMaintenanceReport extends ApiRoutesBase {
                 res.sendStatus(400);
 
             });
-
-
-            
-
 
         });
 

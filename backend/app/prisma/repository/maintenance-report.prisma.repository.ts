@@ -1,5 +1,5 @@
 import { PrismaClient, MaintenanceReport as PrismaMaintenanceReport, MaintenanceReportEntry as  PrismaMaintenanceReportEntry, Prisma } from "@prisma/client";
-import { isNull } from "lodash";
+import { isEmpty, isNull } from "lodash";
 import { singleton } from "tsyringe";
 import { MaintenanceReport, MaintenanceReportEntry, MaintenanceReportRepository } from "../../src/repository/maintenance-report.repository";
 
@@ -25,12 +25,40 @@ type MaintenanceReportEntryFull = Prisma.MaintenanceReportEntryGetPayload<typeof
 
 @singleton()
 export class MaintenanceReportPrismaRepository implements MaintenanceReportRepository {
+   
+   
+   
+    allMaintenanceReports(_prisma: PrismaClient): Promise<MaintenanceReport[]> {
+        
+        return new Promise<MaintenanceReport[]>((resolve, reject) => {
 
-    // private _prisma: PrismaClient;
+            _prisma.maintenanceReport.findMany({
+                include: {
+                    entries: {
+                        include: {
+                            maintenanceObject: true
+                        }
+                    }
+                }
+            }).then(dbMaintenanceReports => {
 
-    // constructor() {
-    //     this._prisma = new PrismaClient();
-    // }
+                
+
+                const result =  dbMaintenanceReports.map(dbMaintenanceReport => this.mapReportFromPrisma(dbMaintenanceReport))
+                if(isEmpty(result)) {
+                    reject(new Error('No Maintenance Reports found'));
+                }
+
+                resolve(result);
+
+            }).catch(error => {
+                console.error(error);
+                reject(error);
+            });
+        });
+    }
+
+    
 
 
     findMaintenanceReportById(_prisma: PrismaClient, id: string):Promise<MaintenanceReport> {
@@ -56,7 +84,7 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
                     resolve(report);
                 }
 
-                reject('not found');
+                reject(new Error(`No Maintenance Report found for ${id}`));
 
             }).catch(error => {
                 console.error(error);
@@ -88,7 +116,7 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
                     resolve(report);
                 }
 
-                reject('not found');
+                reject(new Error(`No Maintenance Report found for year ${year}`));
 
             }).catch(error => {
                 console.error(error);
