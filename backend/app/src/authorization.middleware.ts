@@ -68,7 +68,6 @@ export class AuthorizationMiddleware {
         jwt.verify(token, AuthorizationMiddleware.ACCESS_TOKEN_SECRET, (err, payload:any) => {
             console.log(err)
             if (err) {
-                console.log("fuck")
                 return res.sendStatus(403);
             }
 
