@@ -6,41 +6,90 @@ Content-Type: application/json
 
 ### Get all Maintenance Objects
 GET http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 
 ### Get Specific Maintenance Object
 GET http://localhost/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDUwNDYsImV4cCI6MTY5NDM0ODY0Nn0.5SXbtxJe_tDxGnyrNb9PEjb17eIZZF1JmQrc1Ckl-14
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 
 
 ### Create new Maitenance Object
 POST http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 Content-Type: application/json
 
 {"name": "zomg8"}
 
-### Create new Maitenance Object
+### Update new Maitenance Object
 PUT http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 Content-Type: application/json
 
 {"name": "bar", "id": "0fa67c7a-684a-482b-8b84-af43c257a1b1"}
 
 ### Delete Maitenance Object
 Delete http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+
+
+
+
+
+
+
 
 
 ### Get all Maintenance Reports
 GET http://localhost/maintenance-report
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 
 ### Get Maintenance Reports of year
 GET http://localhost/maintenance-report/?year=2021
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 
 ### Get specific Maintenance Report
 GET http://localhost/maintenance-report/9c896e11-930f-48f6-80db-0db1a893557c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDk1MzksImV4cCI6MTY5NDM1MzEzOX0.i-gRZM1xZWwbzevu2Ctk_lt5r5abVMhIUeyOSr78GM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
 
+### Create new Maintenance Report with entry
+POST http://localhost/maintenance-report
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Content-Type: application/json
+
+{
+    "year": 2023, 
+    "entries": [{
+        "date": "10-09-2023", 
+        "maintainer": "Max Musterman",
+        "maintenanceObjectId": "e82e9f53-2476-41c2-9f9e-4a6ad532e1fd"
+        }
+    ]
+}
+
+### Create new empty Maintenance Report
+POST http://localhost/maintenance-report
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Content-Type: application/json
+
+{"year": 2024}
+
+### Update Maintenance Report
+PUT http://localhost/maintenance-report/0139b105-dade-4c95-9fad-0d93dd2d0d68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Content-Type: application/json
+
+{
+    "year": 2024, 
+    "id": "0139b105-dade-4c95-9fad-0d93dd2d0d68",
+    "entries": [
+        {
+            "date": "10-09-2023",
+            "maintainer": "Ami Musterfrau",
+            "maintenanceObjectId": "35e7962f-602a-4c68-a074-cbd2ad709997"
+        }
+    ]
+}
+
+### Delete Maintenance Report
+DELETE http://localhost/maintenance-report/0139b105-dade-4c95-9fad-0d93dd2d0d68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc

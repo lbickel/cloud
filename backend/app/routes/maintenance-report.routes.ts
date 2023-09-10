@@ -3,6 +3,7 @@ import { AuthorizationMiddleware } from "../src/authorization.middleware";
 import MaintenanceReportController from "../src/controller/maintenance-report.controller";
 import { TenantUtils } from "../src/tenant/tenant.utils";
 import { ApiRoutesBase } from "./routes";
+import { isEmpty } from "lodash";
 
 
 export default class ApiMaintenanceReport extends ApiRoutesBase {
@@ -85,6 +86,94 @@ export default class ApiMaintenanceReport extends ApiRoutesBase {
                 });
 
 
+            }).catch(error => {
+                console.error(error);
+                res.sendStatus(400);
+
+            });
+
+        });
+
+        this.router.post("/maintenance-report",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+
+            const newMaintenanceReport = req.body;
+
+            // if(isEmpty(newMaintenanceReport)) {
+            //     res.status(400).json("Name of new maintenance object must not be empty or undefined");
+            // }
+
+            this._tenantUtils.getTenantIdFromResponse(res)
+            .then(tenantID => {
+
+                this._maintenanceReportController.createMaintenanceReport(tenantID, newMaintenanceReport).
+                    then(maintenanceReport => {
+                        res.status(200).json(maintenanceReport);
+
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
+            }).catch(error => {
+                console.error(error);
+                res.sendStatus(400);
+
+            });
+
+        });
+
+        this.router.put("/maintenance-report/:id",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+
+            const id = req.params.id;
+
+            if (id == null) {
+                res.status(400).send();
+            }
+
+            const updatedMaintenanceReport = req.body;
+
+            // if(isEmpty(updatedMaintenanceReport)) {
+            //     res.status(400).json("Name of new maintenance object must not be empty or undefined");
+            // }
+
+            this._tenantUtils.getTenantIdFromResponse(res)
+            .then(tenantID => {
+
+                this._maintenanceReportController.updateMaintenanceReport(tenantID, updatedMaintenanceReport).
+                    then(maintenanceReport => {
+                        res.status(200).json(maintenanceReport);
+
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
+            }).catch(error => {
+                console.error(error);
+                res.sendStatus(400);
+
+            });
+
+        });
+
+
+        this.router.delete("/maintenance-report/:id",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+
+            const id = req.params.id;
+
+            if (id == null) {
+                res.status(400).send();
+            }
+
+            this._tenantUtils.getTenantIdFromResponse(res)
+            .then(tenantID => {
+
+                this._maintenanceReportController.deleteMaintenanceReport(tenantID, id).
+                    then(maintenanceObject => {
+                        res.status(200).json(maintenanceObject);
+
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
             }).catch(error => {
                 console.error(error);
                 res.sendStatus(400);

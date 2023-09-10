@@ -1,10 +1,11 @@
-import { PrismaClient, MaintenanceReport as PrismaMaintenanceReport, MaintenanceReportEntry as  PrismaMaintenanceReportEntry, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { isEmpty, isNull } from "lodash";
 import { singleton } from "tsyringe";
-import { MaintenanceReport, MaintenanceReportEntry, MaintenanceReportRepository } from "../../src/repository/maintenance-report.repository";
+import { MaintenanceReport,  MaintenanceReportCreation,  MaintenanceReportRepository } from "../../src/repository/maintenance-report.repository";
+import { MaintenanceReportEntry } from "../../src/repository/maintenance-report-entry.repository";
 
 
-const maintenanceReportFull = Prisma.validator<Prisma.MaintenanceReportArgs>() ({
+const maintenanceReportFull = Prisma.validator<Prisma.MaintenanceReportDefaultArgs>() ({
     include: {
         entries: {
             include: {
@@ -14,7 +15,7 @@ const maintenanceReportFull = Prisma.validator<Prisma.MaintenanceReportArgs>() (
     }
 });
 
-const maintenanceReportEntryFull = Prisma.validator<Prisma.MaintenanceReportEntryArgs>() ({
+const maintenanceReportEntryFull = Prisma.validator<Prisma.MaintenanceReportEntryDefaultArgs>() ({
     include: {
         maintenanceObject:true
     }
@@ -25,9 +26,9 @@ type MaintenanceReportEntryFull = Prisma.MaintenanceReportEntryGetPayload<typeof
 
 @singleton()
 export class MaintenanceReportPrismaRepository implements MaintenanceReportRepository {
-   
-   
-   
+    
+    
+    
     allMaintenanceReports(_prisma: PrismaClient): Promise<MaintenanceReport[]> {
         
         return new Promise<MaintenanceReport[]>((resolve, reject) => {
@@ -41,23 +42,24 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
                     }
                 }
             }).then(dbMaintenanceReports => {
-
                 
-
+                
+                
                 const result =  dbMaintenanceReports.map(dbMaintenanceReport => this.mapReportFromPrisma(dbMaintenanceReport))
                 if(isEmpty(result)) {
                     reject(new Error('No Maintenance Reports found'));
                 }
-
+                
                 resolve(result);
-
+                
             }).catch(error => {
                 console.error(error);
                 reject(error);
             });
         });
     }
-
+    
+   
     
 
 
@@ -125,6 +127,164 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
         });
     }
 
+    createMaintenanceReport(_prisma: PrismaClient, newMaintenanceReport: MaintenanceReportCreation): Promise<MaintenanceReport> {
+        
+        let maintenanceReport: Prisma.MaintenanceReportCreateInput;
+        const includeMaintenanceReportEntries = !isEmpty(newMaintenanceReport.entries);
+
+        if(!includeMaintenanceReportEntries) {
+            maintenanceReport = {
+                year: newMaintenanceReport.year
+            }
+        } else {
+            const entries = newMaintenanceReport.entries?.map(entry => {
+
+                let entryCreation: Prisma.MaintenanceReportEntryCreateManyMaintenanceReportInput = {
+                    date: entry.date,
+                    maintainer: entry.maintainer,
+                    maintenanceObjectId: entry.maintenanceObjectId
+                    
+                }
+                return entryCreation;
+            }) as Prisma.MaintenanceReportEntryCreateManyMaintenanceReportInput [];
+
+            maintenanceReport = {
+                year: newMaintenanceReport.year,
+                entries: {
+                    createMany: {
+                        data: entries
+                    } 
+                }
+            }
+        }
+
+
+        return new Promise<MaintenanceReport>((resolve, reject) => {
+            _prisma.maintenanceReport.create({
+                data: maintenanceReport,
+                include: {
+                    entries: {
+                        include: {
+                            maintenanceObject: true
+                            
+                        }
+                    }
+                }
+            })
+            .then(dbMaintenanceReport => {
+
+                if(!isNull(dbMaintenanceReport)) {
+                    const maintenanceObject = this.mapReportFromPrisma(dbMaintenanceReport);
+                    resolve(maintenanceObject);
+                }
+
+                reject(new Error(`Maintenance Report could not be created: ${newMaintenanceReport.year}`));
+
+            }).catch(error => {
+                reject(error);
+            });
+        });
+
+        
+    }
+
+    updateMaintenanceReport(_prisma: PrismaClient, newMaintenanceReport: MaintenanceReport): Promise<MaintenanceReport> {
+        
+        let maintenanceInput: Prisma.MaintenanceReportUpdateInput;
+        const includeMaintenanceReportEntries = !isEmpty(newMaintenanceReport.entries);
+
+        if(!includeMaintenanceReportEntries) {
+            maintenanceInput = {
+                year: newMaintenanceReport.year
+            }
+        } else {
+            const entries = newMaintenanceReport.entries?.map(entry => {
+
+                let entryCreation: Prisma.MaintenanceReportEntryUncheckedUpdateWithoutMaintenanceReportInput = {
+                    date: entry.date,
+                    maintainer: entry.maintainer,
+                    id: entry.id,
+                    maintenanceObjectId: entry.maintenanceObjectId
+                    
+                    
+                }
+                return entryCreation;
+            }) as Prisma.MaintenanceReportEntryCreateManyMaintenanceReportInput [];
+
+            maintenanceInput = {
+                year: newMaintenanceReport.year,
+                entries: {
+                    createMany: {
+                        data: entries
+                    } 
+                }
+            }
+        }
+
+
+        return new Promise<MaintenanceReport>((resolve, reject) => {
+
+            _prisma.maintenanceReport.update({
+                where: {
+                    id: newMaintenanceReport.id
+                },
+                include: {
+                    entries: {
+                        include: {
+                            maintenanceObject: true
+                            
+                        }
+                    }
+                },
+                data: maintenanceInput
+            })
+            .then(dbMaintenanceObject => {
+
+                if(!isNull(dbMaintenanceObject)) {
+                    const maintenanceObject = this.mapReportFromPrisma(dbMaintenanceObject);
+                    resolve(maintenanceObject);
+                }
+
+                reject(new Error(`Maintenance Report could not be updated: ${newMaintenanceReport.id}}`));
+
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    }
+
+    deleteMaintenanceReport(_prisma: PrismaClient, id: string): Promise<MaintenanceReport> {
+        
+        return new Promise<MaintenanceReport>((resolve, reject) => {
+            _prisma.maintenanceReport.delete({
+                where: {
+                    id:id
+                },
+                include: {
+                    entries: {
+                        include: {
+                            maintenanceObject: true
+                        }
+                    }
+                }
+            }).then(dbMaintenanceReport => {
+
+                if(!isNull(dbMaintenanceReport)) {
+                    const maintenanceObject = this.mapReportFromPrisma(dbMaintenanceReport);
+                    resolve(maintenanceObject);
+                }
+
+                reject(new Error(`Maintenance Report could not be deleted: ${id} `));
+
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    }
+
+
+
+
     private mapReportFromPrisma(dbMaintenanceReport: MaintenanceReportFull): MaintenanceReport {
         let report: MaintenanceReport = {
             id: dbMaintenanceReport.id,
@@ -140,7 +300,8 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
             id: dbMaintenanceReport.id,
             date: dbMaintenanceReport.date,
             maintainer: dbMaintenanceReport.maintainer,
-            maintenanceObject: dbMaintenanceReport.maintenanceObject.name
+            maintenanceObject: dbMaintenanceReport.maintenanceObject.name,
+            maintenanceObjectId: dbMaintenanceReport.maintenanceObjectId
         }
 
         return reportEntry;

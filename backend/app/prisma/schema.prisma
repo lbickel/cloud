@@ -24,7 +24,7 @@ model MaintenanceReportEntry {
   maintainer          String
   maintenanceObject   MaintenanceObject  @relation(fields: [maintenanceObjectId], references: [id], onDelete: Cascade) 
   date                String
-  MaintenanceReport   MaintenanceReport? @relation(fields: [maintenanceReportId], references: [id], onDelete: Cascade)
-  maintenanceReportId String?            @db.Uuid
+  MaintenanceReport   MaintenanceReport @relation(fields: [maintenanceReportId], references: [id], onDelete: Cascade)
+  maintenanceReportId String            @db.Uuid
   maintenanceObjectId String             @db.Uuid
 }
