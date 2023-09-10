@@ -1,0 +1,14 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: backend
+build:
+  artifacts:
+    - image: my-multitenant-app
+      context: app
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - k8s/my-multitenant-app.yml
+    - k8s/my-postgres.yml

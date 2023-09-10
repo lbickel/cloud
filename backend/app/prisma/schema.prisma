@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["metrics"]
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+  
+}
+
+model MaintenanceObject {
+  id                     String                   @id @db.Uuid @default(uuid())
+  name                   String
+  MaintenanceReportEntry MaintenanceReportEntry[]
+}
+
+model MaintenanceReport {
+  id      String                   @id @db.Uuid @default(uuid())
+  year    Int
+  entries MaintenanceReportEntry[]
+}
+
+model MaintenanceReportEntry {
+  id                  String              @id @db.Uuid @default(uuid())
+  maintainer          String
+  maintenanceObject   MaintenanceObject   @relation(fields: [maintenanceObjectId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  date                String
+  MaintenanceReport   MaintenanceReport   @relation(fields: [maintenanceReportId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  maintenanceReportId String              @db.Uuid
+  maintenanceObjectId String              @db.Uuid
+}
