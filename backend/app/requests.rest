@@ -1,16 +1,39 @@
+### Authenticate User
+POST http://localhost/auth
+Content-Type: application/json
+
+{"username": "user1", "password":"password1"}
+
+### Get all Maintenance Objects
+GET http://localhost/maintenance-object/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+
+### Get Specific Maintenance Object
 GET http://localhost/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDUwNDYsImV4cCI6MTY5NDM0ODY0Nn0.5SXbtxJe_tDxGnyrNb9PEjb17eIZZF1JmQrc1Ckl-14
 
-###
-GET http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDI5NDYsImV4cCI6MTY5NDM0NjU0Nn0.KawZnaHTClV0xosj4T6qG6u6fRryOt_SCu07PkxE-as
+
+### Create new Maitenance Object
+POST http://localhost/maintenance-object/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Content-Type: application/json
+
+{"name": "zomg8"}
+
+### Create new Maitenance Object
+PUT http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+Content-Type: application/json
+
+{"name": "bar", "id": "0fa67c7a-684a-482b-8b84-af43c257a1b1"}
+
+### Delete Maitenance Object
+Delete http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDg4MDIsImV4cCI6MTY5NDM1MjQwMn0.tXdvOJNiQfb_YdbLhhvU7j1VhMB19AGDB7mG4HXS5-M
+
 
 ###
 GET http://localhost/maintenance-report/2021
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNDI5NDYsImV4cCI6MTY5NDM0NjU0Nn0.KawZnaHTClV0xosj4T6qG6u6fRryOt_SCu07PkxE-as
 
-###
-POST http://localhost/auth
-Content-Type: application/json
 
-{"username": "user1", "password":"password1"}

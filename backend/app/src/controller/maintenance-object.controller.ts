@@ -1,6 +1,6 @@
 import { container, singleton } from "tsyringe";
 import { MaintenanceObjectPrismaRepository } from "../../prisma/repository/maintenance-object.prisma.repository";
-import { MaintenanceObject, MaintenanceObjectRepository } from "../repository/maintenance-object.repository";
+import { MaintenanceObject, MaintenanceObjectCreation, MaintenanceObjectRepository } from "../repository/maintenance-object.repository";
 import { TenantConnectionResolver } from "../../prisma/tenant/connector.tenant.prisma";
 
 
@@ -26,5 +26,22 @@ export default class MaintenanceObjectController {
         return this._maintenanceObjectRepository.allMaintenanceObjects(tenantConnection);
 
     }
+
+    public async createMaintenanceObject(tenantId: string, newMaintenanceObject: MaintenanceObjectCreation) {
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        return this._maintenanceObjectRepository.createMaintenanceObject(tenantConnection, newMaintenanceObject);
+    }
+
+    public async updateMaintenanceObject(tenantId: string, updatedMaintenanceObject: MaintenanceObject) {
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        return this._maintenanceObjectRepository.updateMaintenanceObject(tenantConnection, updatedMaintenanceObject);
+    }
+
+    public async deleteMaintenanceObject(tenantId: string, id: string) {
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        return this._maintenanceObjectRepository.deleteMaintenanceObject(tenantConnection, id);
+    }
+
+
 
 }
