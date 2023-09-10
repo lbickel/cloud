@@ -4,56 +4,63 @@ Content-Type: application/json
 
 {"username": "user1", "password":"password1"}
 
+
+
+### ---------------------- Maintenance Object -----------------------------
+
+
+
 ### Get all Maintenance Objects
 GET http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 ### Get Specific Maintenance Object
 GET http://localhost/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 
 ### Create new Maitenance Object
 POST http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 Content-Type: application/json
 
 {"name": "zomg8"}
 
 ### Update new Maitenance Object
 PUT http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 Content-Type: application/json
 
 {"name": "bar", "id": "0fa67c7a-684a-482b-8b84-af43c257a1b1"}
 
 ### Delete Maitenance Object
 Delete http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 
 
+### ---------------------- Maintenance Object -----------------------------
 
 
 
-
+### ---------------------- Maintenance Report -----------------------------
 
 
 ### Get all Maintenance Reports
 GET http://localhost/maintenance-report
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 ### Get Maintenance Reports of year
 GET http://localhost/maintenance-report/?year=2021
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 ### Get specific Maintenance Report
 GET http://localhost/maintenance-report/9c896e11-930f-48f6-80db-0db1a893557c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 
 ### Create new Maintenance Report with entry
 POST http://localhost/maintenance-report
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 Content-Type: application/json
 
 {
@@ -68,14 +75,14 @@ Content-Type: application/json
 
 ### Create new empty Maintenance Report
 POST http://localhost/maintenance-report
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 Content-Type: application/json
 
 {"year": 2024}
 
 ### Update Maintenance Report
 PUT http://localhost/maintenance-report/0139b105-dade-4c95-9fad-0d93dd2d0d68
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
 Content-Type: application/json
 
 {
@@ -92,4 +99,54 @@ Content-Type: application/json
 
 ### Delete Maintenance Report
 DELETE http://localhost/maintenance-report/0139b105-dade-4c95-9fad-0d93dd2d0d68
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTM5MjgsImV4cCI6MTY5NDM1NzUyOH0.fMWQGFaaWye1AU2114qo5A_ms0_GfxYjigNIVy0XGAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+
+
+
+### ---------------------- Maintenance Report -----------------------------
+
+
+### ---------------------- Maintenance Report Entry -----------------------------
+
+
+
+### Get all Maintenance Report Entries
+GET http://localhost/maintenance-report-entry
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+
+### Get Specific Maintenance Report Entry
+GET http://localhost/maintenance-report-entry/a2d2b3f1-0c1c-410e-bbb7-cbca8010fb27
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+
+
+### Create new Maitenance Report Entry
+POST http://localhost/maintenance-report-entry/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+Content-Type: application/json
+
+{
+  "date": "21-07-2023",
+  "maintainer": "Karl Heinz",
+  "maintenanceObjectId": "35e7962f-602a-4c68-a074-cbd2ad709997",
+  "maintenanceReportId": "9c896e11-930f-48f6-80db-0db1a893557c"
+}
+
+### Update new Maitenance Report Entry
+PUT http://localhost/maintenance-report-entry/ab8368c6-cfca-4bd1-9481-24aa374189ed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+Content-Type: application/json
+
+{
+  "id": "ab8368c6-cfca-4bd1-9481-24aa374189ed",
+  "date": "21-07-2023",
+  "maintainer": "Jeff Bezos",
+  "maintenanceObjectId": "35e7962f-602a-4c68-a074-cbd2ad709997",
+  "maintenanceReportId": "9c896e11-930f-48f6-80db-0db1a893557c"
+}
+
+### Delete Maitenance Report Entry
+Delete http://localhost/maintenance-report-entry/ab8368c6-cfca-4bd1-9481-24aa374189ed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+
+
+### ---------------------- Maintenance Report Entry -----------------------------

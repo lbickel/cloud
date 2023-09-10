@@ -20,11 +20,11 @@ model MaintenanceReport {
 }
 
 model MaintenanceReportEntry {
-  id                  String             @id @db.Uuid @default(uuid())
+  id                  String              @id @db.Uuid @default(uuid())
   maintainer          String
-  maintenanceObject   MaintenanceObject  @relation(fields: [maintenanceObjectId], references: [id], onDelete: Cascade) 
+  maintenanceObject   MaintenanceObject   @relation(fields: [maintenanceObjectId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
   date                String
-  MaintenanceReport   MaintenanceReport @relation(fields: [maintenanceReportId], references: [id], onDelete: Cascade)
-  maintenanceReportId String            @db.Uuid
-  maintenanceObjectId String             @db.Uuid
+  MaintenanceReport   MaintenanceReport   @relation(fields: [maintenanceReportId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  maintenanceReportId String              @db.Uuid
+  maintenanceObjectId String              @db.Uuid
 }

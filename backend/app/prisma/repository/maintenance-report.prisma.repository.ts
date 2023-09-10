@@ -3,6 +3,7 @@ import { isEmpty, isNull } from "lodash";
 import { singleton } from "tsyringe";
 import { MaintenanceReport,  MaintenanceReportCreation,  MaintenanceReportRepository } from "../../src/repository/maintenance-report.repository";
 import { MaintenanceReportEntry } from "../../src/repository/maintenance-report-entry.repository";
+import { MaintenanceReportEntryPrismaRepository } from "./maintenance-report-entry.prisma.repository";
 
 
 const maintenanceReportFull = Prisma.validator<Prisma.MaintenanceReportDefaultArgs>() ({
@@ -15,14 +16,9 @@ const maintenanceReportFull = Prisma.validator<Prisma.MaintenanceReportDefaultAr
     }
 });
 
-const maintenanceReportEntryFull = Prisma.validator<Prisma.MaintenanceReportEntryDefaultArgs>() ({
-    include: {
-        maintenanceObject:true
-    }
-});
+
 
 type MaintenanceReportFull = Prisma.MaintenanceReportGetPayload<typeof maintenanceReportFull>; 
-type MaintenanceReportEntryFull = Prisma.MaintenanceReportEntryGetPayload<typeof maintenanceReportEntryFull>;
 
 @singleton()
 export class MaintenanceReportPrismaRepository implements MaintenanceReportRepository {
@@ -289,22 +285,12 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
         let report: MaintenanceReport = {
             id: dbMaintenanceReport.id,
             year: dbMaintenanceReport.year,
-            entries: dbMaintenanceReport.entries.map(reportEntry => this.mapReportEntryFromPrisma(reportEntry))
+            entries: dbMaintenanceReport.entries.map(reportEntry => MaintenanceReportEntryPrismaRepository.mapReportEntryFromPrisma(reportEntry))
         }
 
         return report;
     }
 
-    private mapReportEntryFromPrisma(dbMaintenanceReport: MaintenanceReportEntryFull): MaintenanceReportEntry {
-        let reportEntry: MaintenanceReportEntry = {
-            id: dbMaintenanceReport.id,
-            date: dbMaintenanceReport.date,
-            maintainer: dbMaintenanceReport.maintainer,
-            maintenanceObject: dbMaintenanceReport.maintenanceObject.name,
-            maintenanceObjectId: dbMaintenanceReport.maintenanceObjectId
-        }
-
-        return reportEntry;
-    }
+    
 
 }

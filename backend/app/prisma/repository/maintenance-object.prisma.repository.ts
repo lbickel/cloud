@@ -1,8 +1,8 @@
-import { Prisma, PrismaClient, MaintenanceObject as PrismaMaintenanceObject } from "@prisma/client";
+import { PrismaClient, MaintenanceObject as PrismaMaintenanceObject } from "@prisma/client";
 import { isEmpty, isNull } from "lodash";
 import { singleton } from "tsyringe";
 import { MaintenanceObject, MaintenanceObjectCreation, MaintenanceObjectRepository } from "../../src/repository/maintenance-object.repository";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+
 
 @singleton()
 export class MaintenanceObjectPrismaRepository implements MaintenanceObjectRepository {

@@ -7,6 +7,7 @@ import ApiMaintenanceReport from "../routes/maintenance-report.routes";
 
 
 import Authentication from "../routes/auth.routes";
+import ApiMaintenanceReportEntry from "../routes/maintenance-report-entry.routes";
 
 console.log(__dirname)
 
@@ -18,11 +19,13 @@ app.use(compression());
 
 const maintenanceObject = new ApiMaintenanceObject();
 const maintenanceReport = new ApiMaintenanceReport();
+const maintenanceReportEntry = new ApiMaintenanceReportEntry();
 const auth = new Authentication();
 
 
 app.use('/', maintenanceObject.router);
 app.use('/', maintenanceReport.router);
+app.use('/', maintenanceReportEntry.router);
 app.use('/', auth.router);
 
 
