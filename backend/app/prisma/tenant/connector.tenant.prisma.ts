@@ -12,25 +12,25 @@ export class TenantConnectionResolver {
     connectionOfTenant(tenantID: string): Promise<PrismaClient> {
 
         return new Promise<PrismaClient>((resolve, reject) => {
-            this.checkConncetionCache(tenantID)
+            this.checkConnectionCache(tenantID)
             .then(cachedConnection => {
                 resolve(cachedConnection);
-            }).catch(cachError => {
-                console.log(cachError);
+            }).catch(cacheError => {
+                console.log(cacheError);
                 this.createTenantConnection(tenantID)
                 .then(newConnection => {
                     this._connectionCache.set(tenantID, newConnection);
                     resolve(newConnection);
                 }).catch(error => {
                     console.error(error);
-                    reject();
+                    reject(error);
                 });
             });
         });
         
     }
 
-    private checkConncetionCache(tenantID: string): Promise<PrismaClient> {
+    private checkConnectionCache(tenantID: string): Promise<PrismaClient> {
 
         return new Promise<PrismaClient>((resolve, reject) => {
 
@@ -40,7 +40,7 @@ export class TenantConnectionResolver {
                 resolve(tenantConnection);
             }
 
-            reject();
+            reject(new Error("no connection in cache"));
 
         });
 
@@ -56,12 +56,10 @@ export class TenantConnectionResolver {
         return new Promise<PrismaClient>((resolve, reject) => {
 
             //TODO: Rework required!!!!
-            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgres@localhost:5432'+tenantID }}});
-
-            // console.log(tenantConnection);
+            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgres@my-postgres-service:5432/'+tenantID }}});
 
             if (isUndefined(tenantConnection)) {
-                reject();
+                reject(new Error(`No database connection was found for tenant ${tenantID}`));
             }
             
             resolve(tenantConnection);
