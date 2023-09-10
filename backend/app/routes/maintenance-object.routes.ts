@@ -19,20 +19,16 @@ export default class ApiMaintenanceObject extends ApiRoutesBase {
 
     protected initRoutes(): void {
 
-        this.router.get("/maintenance-object/:id",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+        
 
-            const id = req.params.id;
-
-            if (id == null) {
-                res.status(400).send();
-            }
+        this.router.get("/maintenance-object",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
 
             this._tenantUtils.getTenantIdFromResponse(res)
             .then(tenantID => {
 
-                this._maintenanceObjectController.findMaintenanceObjectById(tenantID, id).
-                    then(authedUser => {
-                        res.status(200).json(authedUser);
+                this._maintenanceObjectController.getAllMaintenanceObjects(tenantID).
+                    then(maintenanceObjects => {
+                        res.status(200).json(maintenanceObjects);
 
                     }).catch(error => {
                         console.error(error);
@@ -45,6 +41,36 @@ export default class ApiMaintenanceObject extends ApiRoutesBase {
             });
 
         });
+
+        this.router.get("/maintenance-object/:id",  AuthorizationMiddleware.authenticateToken, AuthorizationMiddleware.authorize, (req, res) => {
+
+            const id = req.params.id;
+
+            if (id == null) {
+                res.status(400).send();
+            }
+
+            this._tenantUtils.getTenantIdFromResponse(res)
+            .then(tenantID => {
+
+                this._maintenanceObjectController.findMaintenanceObjectById(tenantID, id).
+                    then(maintenanceObject => {
+                        res.status(200).json(maintenanceObject);
+
+                    }).catch(error => {
+                        console.error(error);
+                        res.status(404).send();
+                    });
+            }).catch(error => {
+                console.error(error);
+                res.sendStatus(400);
+
+            });
+
+        });
+
+
+
 
     }
 

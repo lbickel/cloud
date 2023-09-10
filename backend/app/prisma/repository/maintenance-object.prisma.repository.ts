@@ -5,22 +5,17 @@ import { MaintenanceObject, MaintenanceObjectRepository } from "../../src/reposi
 
 @singleton()
 export class MaintenanceObjectPrismaRepository implements MaintenanceObjectRepository {
-
-    
-
-    constructor() {
-        
-    }
+ 
 
     allMaintenanceObjects(_prisma: PrismaClient): Promise<MaintenanceObject[]> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise<MaintenanceObject[]>((resolve, reject) => {
 
             _prisma.maintenanceObject.findMany().then(dbMaintenanceObjects => {
-                const result = dbMaintenanceObjects.map(dbMobject => this.mapFromPrisma(dbMobject));
+                const result = dbMaintenanceObjects.map(dbMaintenanceObject => this.mapFromPrisma(dbMaintenanceObject));
                 
                 if(isEmpty(result)) {
-                    reject('found nothing');
+                    reject(new Error('No Maintenance Objects'));
                 }
 
                 resolve(result);
@@ -44,7 +39,7 @@ export class MaintenanceObjectPrismaRepository implements MaintenanceObjectRepos
                     resolve(maintenanceObject);
                 }
 
-                reject('not found');
+                reject(new Error(`No Maintenance Objects found for id: ${id}`));
 
             }).catch(error => {
                 reject(error);

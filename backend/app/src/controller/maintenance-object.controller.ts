@@ -21,4 +21,10 @@ export default class MaintenanceObjectController {
         return this._maintenanceObjectRepository.findMaintenanceObjectById(tenantConnection, id);
     }
 
+    public async getAllMaintenanceObjects(tenantId: string) {
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        return this._maintenanceObjectRepository.allMaintenanceObjects(tenantConnection);
+
+    }
+
 }
