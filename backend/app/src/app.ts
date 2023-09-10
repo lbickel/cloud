@@ -31,13 +31,13 @@ let _tenantConnectionResolver = container.resolve(TenantConnectionResolver);
 
 app.get('/metrics', async (_req, res: Response) => {
   const tenant1Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant1");
-//   const tenant2Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant2");
+  const tenant2Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant2");
 
-  let metrics1 = await tenant1Prisma.$metrics.prometheus();
-//   let metrics2 = await tenant2Prisma.$metrics.prometheus();
+  let metrics1 = await tenant1Prisma.$metrics.prometheus({globalLabels: {tenant: "tenant1"}});
+  let metrics2 = await tenant2Prisma.$metrics.prometheus({globalLabels: {tenant: "tenant2"}});
   let appMetrics = await register.metrics()
 
-  res.end(metrics1+appMetrics)
+  res.end(metrics1+metrics2+appMetrics)
 })
 
 
