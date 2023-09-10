@@ -2,7 +2,7 @@
 POST http://localhost/auth
 Content-Type: application/json
 
-{"username": "user1", "password":"password1"}
+{"username": "user2", "password":"password2"}
 
 
 
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ### Get all Maintenance Objects
 GET http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInRlbmFudCI6InRlbmFudDIiLCJpYXQiOjE2OTQzNjA1MzAsImV4cCI6MTY5NDM2NDEzMH0.VZShngVqWJOgLB1D9RRQHlXts2NiYXi_Nc66zhY89iI
 
 ### Get Specific Maintenance Object
 GET http://localhost/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
@@ -150,3 +150,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlb
 
 
 ### ---------------------- Maintenance Report Entry -----------------------------
+
+### Get Metrics for Prometheus
+GET http://localhost/metrics

@@ -64,6 +64,7 @@
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "pg": "^8.7.3",
+    "prom-client": "^14.2.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "swagger-autogen": "^2.23.5",
