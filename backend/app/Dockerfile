@@ -10,3 +10,4 @@ COPY src /app/src
 COPY routes /app/routes
 COPY prisma /app/prisma
 CMD npm run dev
+

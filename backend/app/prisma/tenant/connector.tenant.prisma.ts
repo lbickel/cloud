@@ -16,7 +16,7 @@ export class TenantConnectionResolver {
             .then(cachedConnection => {
                 resolve(cachedConnection);
             }).catch(cacheError => {
-                console.log(cacheError);
+                // console.log(cacheError);
                 this.createTenantConnection(tenantID)
                 .then(newConnection => {
                     this._connectionCache.set(tenantID, newConnection);
@@ -59,7 +59,7 @@ export class TenantConnectionResolver {
             const tenantConnection = new PrismaClient().$extends({
                 query: {
                     $allOperations({model, operation, args, query}) {
-                        args.where = { tenantID: tenantID, ...args.where }
+                        args.where = { tenantId: tenantID, ...args.where }
                         return query(args);
                     }
                 }

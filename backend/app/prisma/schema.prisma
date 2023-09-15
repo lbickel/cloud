@@ -5,9 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgres"
-  // url      = env("DATABASE_URL")
-  url      = "postgresql://postgres:postgres@my-postgres-service:5432/postgres"
-  
+  url      = "postgresql://postgres:postgres@my-postgres-service:5432/mtdb"
 }
 
 model MaintenanceObject {
