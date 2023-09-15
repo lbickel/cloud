@@ -2,6 +2,7 @@ import { container, singleton } from "tsyringe";
 import { MaintenanceObjectPrismaRepository } from "../../prisma/repository/maintenance-object.prisma.repository";
 import { MaintenanceObject, MaintenanceObjectCreation, MaintenanceObjectRepository } from "../repository/maintenance-object.repository";
 import { TenantConnectionResolver } from "../../prisma/tenant/connector.tenant.prisma";
+import { PrismaClient } from "@prisma/client";
 
 
 @singleton()
@@ -17,28 +18,28 @@ export default class MaintenanceObjectController {
     }
 
     public async findMaintenanceObjectById(tenantId: string, id: string): Promise<MaintenanceObject> {
-        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId) as PrismaClient;
         return this._maintenanceObjectRepository.findMaintenanceObjectById(tenantConnection, id);
     }
 
     public async getAllMaintenanceObjects(tenantId: string) {
-        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId) as PrismaClient;;
         return this._maintenanceObjectRepository.allMaintenanceObjects(tenantConnection);
 
     }
 
     public async createMaintenanceObject(tenantId: string, newMaintenanceObject: MaintenanceObjectCreation) {
-        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
-        return this._maintenanceObjectRepository.createMaintenanceObject(tenantConnection, newMaintenanceObject);
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId) as PrismaClient;;
+        return this._maintenanceObjectRepository.createMaintenanceObject(tenantConnection, newMaintenanceObject, tenantId);
     }
 
     public async updateMaintenanceObject(tenantId: string, updatedMaintenanceObject: MaintenanceObject) {
-        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId) as PrismaClient;;
         return this._maintenanceObjectRepository.updateMaintenanceObject(tenantConnection, updatedMaintenanceObject);
     }
 
     public async deleteMaintenanceObject(tenantId: string, id: string) {
-        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId);
+        const tenantConnection = await this._tenantConnectionResolver.connectionOfTenant(tenantId) as PrismaClient;;
         return this._maintenanceObjectRepository.deleteMaintenanceObject(tenantConnection, id);
     }
 

@@ -24,7 +24,7 @@ export interface MaintenanceReportEntryRepository {
 
     findMaintenanceReportEntryById(_prisma:PrismaClient, id: string): Promise<MaintenanceReportEntry>;
     
-    createMaintenanceReportEntry(_prisma: PrismaClient, newMaintenanceReportEntry: MaintenanceReportEntryCreation): Promise<MaintenanceReportEntry>;
+    createMaintenanceReportEntry(_prisma: PrismaClient, newMaintenanceReportEntry: MaintenanceReportEntryCreation, tenantID: string): Promise<MaintenanceReportEntry>;
 
     updateMaintenanceReportEntry(_prisma: PrismaClient, updatedMaintenanceReportEntry: MaintenanceReportEntry): Promise<MaintenanceReportEntry>;
 

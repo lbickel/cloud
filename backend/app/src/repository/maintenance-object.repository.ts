@@ -15,7 +15,7 @@ export interface MaintenanceObjectRepository {
 
     findMaintenanceObjectById(_prisma: PrismaClient, id: string): Promise<MaintenanceObject>;
 
-    createMaintenanceObject(_prisma: PrismaClient, newMaintenanceObject: MaintenanceObjectCreation): Promise<MaintenanceObject>;
+    createMaintenanceObject(_prisma: PrismaClient, newMaintenanceObject: MaintenanceObjectCreation, tenantID: string): Promise<MaintenanceObject>;
     
     updateMaintenanceObject(_prisma: PrismaClient, updatedMaintenanceObject: MaintenanceObject): Promise<MaintenanceObject>;
     

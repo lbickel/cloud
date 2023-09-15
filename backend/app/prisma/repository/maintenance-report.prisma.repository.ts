@@ -123,14 +123,15 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
         });
     }
 
-    createMaintenanceReport(_prisma: PrismaClient, newMaintenanceReport: MaintenanceReportCreation): Promise<MaintenanceReport> {
+    createMaintenanceReport(_prisma: PrismaClient, newMaintenanceReport: MaintenanceReportCreation, tenantID: string): Promise<MaintenanceReport> {
         
         let maintenanceReport: Prisma.MaintenanceReportCreateInput;
         const includeMaintenanceReportEntries = !isEmpty(newMaintenanceReport.entries);
 
         if(!includeMaintenanceReportEntries) {
             maintenanceReport = {
-                year: newMaintenanceReport.year
+                year: newMaintenanceReport.year,
+                tenantId: tenantID
             }
         } else {
             const entries = newMaintenanceReport.entries?.map(entry => {
@@ -138,7 +139,8 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
                 let entryCreation: Prisma.MaintenanceReportEntryCreateManyMaintenanceReportInput = {
                     date: entry.date,
                     maintainer: entry.maintainer,
-                    maintenanceObjectId: entry.maintenanceObjectId
+                    maintenanceObjectId: entry.maintenanceObjectId,
+                    tenantId: tenantID
                     
                 }
                 return entryCreation;
@@ -146,6 +148,7 @@ export class MaintenanceReportPrismaRepository implements MaintenanceReportRepos
 
             maintenanceReport = {
                 year: newMaintenanceReport.year,
+                tenantId: tenantID,
                 entries: {
                     createMany: {
                         data: entries

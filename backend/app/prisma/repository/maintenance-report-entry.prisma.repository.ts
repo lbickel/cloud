@@ -60,7 +60,7 @@ export class MaintenanceReportEntryPrismaRepository implements MaintenanceReport
         });
     }
 
-    createMaintenanceReportEntry(_prisma: PrismaClient, newMaintenanceReportEntry: MaintenanceReportEntryCreation): Promise<MaintenanceReportEntry> {
+    createMaintenanceReportEntry(_prisma: PrismaClient, newMaintenanceReportEntry: MaintenanceReportEntryCreation, tenantID: string): Promise<MaintenanceReportEntry> {
         
         return new Promise<MaintenanceReportEntry>((resolve, reject) => {
             _prisma.maintenanceReportEntry.create({
@@ -68,7 +68,8 @@ export class MaintenanceReportEntryPrismaRepository implements MaintenanceReport
                     date: newMaintenanceReportEntry.date,
                     maintainer: newMaintenanceReportEntry.maintainer,
                     maintenanceObjectId: newMaintenanceReportEntry.maintenanceObjectId,
-                    maintenanceReportId: newMaintenanceReportEntry.maintenanceReportId
+                    maintenanceReportId: newMaintenanceReportEntry.maintenanceReportId,
+                    tenantId: tenantID
                 },
                 include: {
                     maintenanceObject: true
