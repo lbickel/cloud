@@ -11,6 +11,7 @@ import ApiMaintenanceReport from "../routes/maintenance-report.routes";
 import Authentication from "../routes/auth.routes";
 import ApiMaintenanceReportEntry from "../routes/maintenance-report-entry.routes";
 import { TenantConnectionResolver } from "../prisma/tenant/connector.tenant.prisma";
+import { PrismaClient } from "@prisma/client";
 
 
 const register = new prom.Registry()
@@ -30,8 +31,8 @@ let _tenantConnectionResolver = container.resolve(TenantConnectionResolver);
 
 
 app.get('/metrics', async (_req, res: Response) => {
-  const tenant1Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant1");
-  const tenant2Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant2");
+  const tenant1Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant1") as PrismaClient;
+  const tenant2Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant2") as PrismaClient;
 
   let metrics1 = await tenant1Prisma.$metrics.prometheus({globalLabels: {tenant: "tenant1"}});
   let metrics2 = await tenant2Prisma.$metrics.prometheus({globalLabels: {tenant: "tenant2"}});

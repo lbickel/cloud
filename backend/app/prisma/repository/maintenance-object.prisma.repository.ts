@@ -47,12 +47,13 @@ export class MaintenanceObjectPrismaRepository implements MaintenanceObjectRepos
         });
     }
 
-    createMaintenanceObject(_prisma: PrismaClient, newMaintenanceObject: MaintenanceObjectCreation): Promise<MaintenanceObject> {
+    createMaintenanceObject(_prisma: PrismaClient, newMaintenanceObject: MaintenanceObjectCreation, tenantID: string): Promise<MaintenanceObject> {
         
         return new Promise<MaintenanceObject>((resolve, reject) => {
             _prisma.maintenanceObject.create({
                 data: {
-                    name: newMaintenanceObject.name
+                    name: newMaintenanceObject.name,
+                    tenantId: tenantID
                 }
             })
             .then(dbMaintenanceObject => {
