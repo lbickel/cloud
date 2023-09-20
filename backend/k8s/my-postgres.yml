@@ -25,8 +25,8 @@ spec:
             - name: data-volume
               mountPath: "/tmp/data/"
       containers:
-      - name: postgres
-        image: postgres:latest
+      - name: my-postgres-container
+        image: my-postgres-image #postgres:14.9
         env:
           - name: POSTGRES_DB
             value: "postgres"
@@ -37,11 +37,26 @@ spec:
         ports:
           - containerPort: 5432
         volumeMounts:
-          - name: data-volume
-            mountPath: /docker-entrypoint-initdb.d/
+          - name: postgres-pv-claim
+            mountPath: /var/lib/postgresql/data
       volumes:
-        - name: data-volume
-          emptyDir: {}
+        - name: postgres-pv-claim
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: postgres
+  name: postgres-pv-claim
+spec:
+  storageClassName: openebs-hostpath
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
 ---
 apiVersion: v1
 kind: Service
