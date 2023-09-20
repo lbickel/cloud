@@ -7,7 +7,7 @@
     "seed" : " ts-node ./prisma/seed/seed.ts"
   },
   "scripts": {
-    "dev": "npm run prisma-generate && npx prisma migrate deploy && npx prisma db seed && npm run start",
+    "dev": "npm run prisma-generate && npm run start",
     "watch": "nodemon ./src/app.ts",
     "start": "ts-node ./src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
