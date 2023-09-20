@@ -1,5 +1,5 @@
 # Use an official PostgreSQL image as the base image
-FROM postgres:latest
+ FROM postgres:14.9
 
 # Environment variables for PostgreSQL
 ENV POSTGRES_DB=postgres
@@ -8,6 +8,10 @@ ENV POSTGRES_PASSWORD=postgres
 
 # Copy the SQL script to the /docker-entrypoint-initdb.d/ directory
 COPY sql-init.sql /docker-entrypoint-initdb.d/
+
+COPY init.sh /usr/local/bin
+
+RUN ["chmod", "+x", "/usr/local/bin/init.sh"]
 
 # Expose PostgreSQL port
 EXPOSE 5432
@@ -18,4 +22,5 @@ EXPOSE 5432
 
 # Optionally, you can specify a custom entrypoint script if needed
 # ENTRYPOINT ["/custom-entrypoint.sh"]
+
 
