@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-multitenant-app
-        image: my-multitenant-app
+        image: lindtschoki/my-multitenant-app:latest
         ports:
           - containerPort: 3000
 ---
