@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-postgres-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: postgres
@@ -14,19 +14,9 @@ spec:
       labels:
         app: postgres
     spec:
-      initContainers:
-        - name: init-container-data
-          image: curlimages/curl
-          args: 
-            - "-o"
-            - "/tmp/data/init.sql"
-            - "https://raw.githubusercontent.com/lbickel/cloud/multitenant-dev/backend/sql/sql-init.sql"
-          volumeMounts:
-            - name: data-volume
-              mountPath: "/tmp/data/"
       containers:
-      - name: my-postgres-container
-        image: my-postgres-image #postgres:14.9
+      - name: my-multitenant-postgres
+        image: lindtschoki/my-multitenant-postgres:latest
         env:
           - name: POSTGRES_DB
             value: "postgres"
