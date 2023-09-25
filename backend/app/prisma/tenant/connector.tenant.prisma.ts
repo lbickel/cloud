@@ -1,23 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 import { isUndefined } from "lodash";
 import { singleton } from "tsyringe";
-import dotenv from 'dotenv';
+
 
 
 @singleton()
 export class TenantConnectionResolver {
 
-    private _connectionCache: Map<string, PrismaClient> = new Map();
+    private _connectionCache: Map<string, unknown> = new Map();
   
 
-    connectionOfTenant(tenantID: string): Promise<PrismaClient> {
+    connectionOfTenant(tenantID: string): Promise<unknown> {
 
-        return new Promise<PrismaClient>((resolve, reject) => {
+        return new Promise<unknown>((resolve, reject) => {
             this.checkConnectionCache(tenantID)
             .then(cachedConnection => {
                 resolve(cachedConnection);
             }).catch(cacheError => {
-                console.log(cacheError);
+                // console.log(cacheError);
                 this.createTenantConnection(tenantID)
                 .then(newConnection => {
                     this._connectionCache.set(tenantID, newConnection);
@@ -31,9 +31,9 @@ export class TenantConnectionResolver {
         
     }
 
-    private checkConnectionCache(tenantID: string): Promise<PrismaClient> {
+    private checkConnectionCache(tenantID: string): Promise<unknown> {
 
-        return new Promise<PrismaClient>((resolve, reject) => {
+        return new Promise<unknown>((resolve, reject) => {
 
             const tenantConnection = this._connectionCache.get(tenantID);
 
@@ -53,8 +53,8 @@ export class TenantConnectionResolver {
      * @param tenantID 
      * @returns 
      */
-    private createTenantConnection(tenantID: string): Promise<PrismaClient> {
-        return new Promise<PrismaClient>((resolve, reject) => {
+    private createTenantConnection(tenantID: string): Promise<unknown> {
+        return new Promise<unknown>((resolve, reject) => {
 
             //TODO: Rework required!!!!
             const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgresSuperUserPsw@mypostgres:5432/'+tenantID }}});

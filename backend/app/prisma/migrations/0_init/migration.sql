@@ -1,5 +1,6 @@
 -- CreateTable
 CREATE TABLE "MaintenanceObject" (
+    "tenantId" TEXT NOT NULL,
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
 
@@ -8,6 +9,7 @@ CREATE TABLE "MaintenanceObject" (
 
 -- CreateTable
 CREATE TABLE "MaintenanceReport" (
+    "tenantId" TEXT NOT NULL,
     "id" UUID NOT NULL,
     "year" INTEGER NOT NULL,
 
@@ -16,17 +18,19 @@ CREATE TABLE "MaintenanceReport" (
 
 -- CreateTable
 CREATE TABLE "MaintenanceReportEntry" (
+    "tenantId" TEXT NOT NULL,
     "id" UUID NOT NULL,
     "maintainer" TEXT NOT NULL,
     "date" TEXT NOT NULL,
-    "maintenanceReportId" UUID,
+    "maintenanceReportId" UUID NOT NULL,
     "maintenanceObjectId" UUID NOT NULL,
 
     CONSTRAINT "MaintenanceReportEntry_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
-ALTER TABLE "MaintenanceReportEntry" ADD CONSTRAINT "MaintenanceReportEntry_maintenanceObjectId_fkey" FOREIGN KEY ("maintenanceObjectId") REFERENCES "MaintenanceObject"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MaintenanceReportEntry" ADD CONSTRAINT "MaintenanceReportEntry_maintenanceObjectId_fkey" FOREIGN KEY ("maintenanceObjectId") REFERENCES "MaintenanceObject"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MaintenanceReportEntry" ADD CONSTRAINT "MaintenanceReportEntry_maintenanceReportId_fkey" FOREIGN KEY ("maintenanceReportId") REFERENCES "MaintenanceReport"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "MaintenanceReportEntry" ADD CONSTRAINT "MaintenanceReportEntry_maintenanceReportId_fkey" FOREIGN KEY ("maintenanceReportId") REFERENCES "MaintenanceReport"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
