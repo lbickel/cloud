@@ -3,6 +3,7 @@ import { isUndefined } from "lodash";
 import { singleton } from "tsyringe";
 
 
+
 @singleton()
 export class TenantConnectionResolver {
 
@@ -56,16 +57,7 @@ export class TenantConnectionResolver {
         return new Promise<unknown>((resolve, reject) => {
 
             //TODO: Rework required!!!!
-            const tenantConnection = new PrismaClient().$extends({
-                query: {
-                    $allOperations({model, operation, args, query}) {
-                        args.where = { tenantId: tenantID, ...args.where }
-                        return query(args);
-                    }
-                }
-            });
-
-            
+            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgresSuperUserPsw@mypostgres:5432/'+tenantID }}});
 
             if (isUndefined(tenantConnection)) {
                 reject(new Error(`No database connection was found for tenant ${tenantID}`));
