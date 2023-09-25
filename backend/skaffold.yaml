@@ -10,5 +10,7 @@ build:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
-    - k8s/my-postgres.yml
     - k8s/my-multitenant-app.yml
+    - k8s/my-postgres-secret.yml
+    - k8s/my-postgres.yaml
+    - k8s/postgres-init.yaml
