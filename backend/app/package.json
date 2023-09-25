@@ -35,7 +35,7 @@
     "@types/lodash": "^4.14.182",
     "@types/method-override": "0.0.32",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^18.0.4",
+    "@types/node": "^18.17.19",
     "@types/passport": "^1.0.9",
     "@types/passport-local": "^1.0.34",
     "@types/pg": "^8.6.5",

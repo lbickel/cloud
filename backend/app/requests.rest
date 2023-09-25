@@ -12,8 +12,7 @@ Content-Type: application/json
 
 ### Get all Maintenance Objects
 GET http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInRlbmFudCI6InRlbmFudDIiLCJpYXQiOjE2OTQzNjA1MzAsImV4cCI6MTY5NDM2NDEzMH0.VZShngVqWJOgLB1D9RRQHlXts2NiYXi_Nc66zhY89iI
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInRlbmFudCI6InRlbmFudDIiLCJpYXQiOjE2OTU2Njk5NzQsImV4cCI6MTY5NTY3MzU3NH0.u_Tk45QjTsgGBzjF79zLOVpZR_XXxNkZubVgBsGAhmg
 ### Get Specific Maintenance Object
 GET http://localhost/maintenance-object/35e7962f-602a-4c68-a074-cbd2ad709997
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
@@ -21,10 +20,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlb
 
 ### Create new Maitenance Object
 POST http://localhost/maintenance-object/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInRlbmFudCI6InRlbmFudDIiLCJpYXQiOjE2OTU2NjYwOTQsImV4cCI6MTY5NTY2OTY5NH0.GZOjatIiAxc-kfw5D4Hzcu-h9fi2K455DSImyHngTBE
 Content-Type: application/json
 
-{"name": "zomg8"}
+{"name": "PC"}
 
 ### Update new Maitenance Object
 PUT http://localhost/maintenance-object/0fa67c7a-684a-482b-8b84-af43c257a1b1
