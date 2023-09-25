@@ -4,7 +4,7 @@ window.addEventListener("load", () => {
 
 function init() {
     const maintenanceForm = document.getElementById("maintenance-form");
-    maintenanceForm.addEventListener("submit", submitForm);
+    maintenanceForm.addEventListener("submit", (event) => submitForm(event));
 
     //setDatePickerToToday();
 
@@ -16,7 +16,11 @@ function init() {
     } else {
         // if no token exists, show login form
         showLoginForm();
-    }        
+    }
+
+    const logoffButton = document.getElementById("logoffButton");
+    logoffButton.addEventListener("click", (event) => logoff(event));
+
 }
 
 function setDatePickerToToday() {
@@ -25,7 +29,8 @@ function setDatePickerToToday() {
     document.getElementById("date").value = today;
 }
 
-function submitForm() {
+function submitForm(event) {
+    event.preventDefault();
     const device = document.getElementById("device").value;
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
@@ -62,4 +67,10 @@ function checkToken(token) {
 
 function showLoginForm() {
     window.location.href = "/";
+}
+
+function logoff(event) {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    window.location.href = "/index.html";
 }
