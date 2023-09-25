@@ -3,6 +3,7 @@ import { isUndefined } from "lodash";
 import { singleton } from "tsyringe";
 import dotenv from 'dotenv';
 
+
 @singleton()
 export class TenantConnectionResolver {
 

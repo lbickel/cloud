@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-multitenant-app
-        image: xamma/my-multitenant-app:latest
+        image: my-multitenant-app #lindtschoki/my-multitenant-app:latest
         ports:
           - containerPort: 3000
 ---
@@ -25,27 +25,25 @@ metadata:
 spec:
   selector:
     app: my-multitenant-app
-  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 3000
     targetPort: 3000
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: my-multitenant-app-ingress
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-# spec:
-#   rules:
-#   - host: multitenant.local
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: my-multitenant-app-service
-#             port:
-#               number: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-multitenant-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-multitenant-app-service
+            port:
+              number: 3000

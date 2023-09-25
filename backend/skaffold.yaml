@@ -1,18 +1,16 @@
 apiVersion: skaffold/v4beta6
 kind: Config
 metadata:
-  name: cloud
+  name: backend
 build:
   artifacts:
     - image: my-multitenant-app
-      context: backend/app
-      docker:
-        dockerfile: Dockerfile
-    - image: my-postgres-image
-      context: backend/app/sql
+      context: app
       docker:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
     - k8s/my-multitenant-app.yml
-    - k8s/my-postgres.yml
+    - k8s/my-postgres-secret.yml
+    - k8s/my-postgres.yaml
+    - k8s/postgres-init.yaml
