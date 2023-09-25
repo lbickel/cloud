@@ -56,7 +56,7 @@ export class TenantConnectionResolver {
         return new Promise<PrismaClient>((resolve, reject) => {
 
             //TODO: Rework required!!!!
-            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgres@my-postgres-service:5432/'+tenantID }}});
+            const tenantConnection = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgresSuperUserPsw@mypostgres:5432/'+tenantID }}});
 
             if (isUndefined(tenantConnection)) {
                 reject(new Error(`No database connection was found for tenant ${tenantID}`));
