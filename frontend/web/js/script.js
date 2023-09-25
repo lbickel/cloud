@@ -119,3 +119,8 @@ function save(event) {
          alert("Bitte füllen Sie alle Felder aus.");
      }
 }
+
+function deleteRow(icon) {
+    const row = icon.parentElement.parentElement;
+    row.remove();
+}
