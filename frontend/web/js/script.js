@@ -21,6 +21,9 @@ function init() {
     const logoffButton = document.getElementById("logoffButton");
     logoffButton.addEventListener("click", (event) => logoff(event));
 
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener("click", (event) => save(event));
+
 }
 
 function setDatePickerToToday() {
@@ -73,4 +76,46 @@ function logoff(event) {
     event.preventDefault();
     localStorage.removeItem("token");
     window.location.href = "/index.html";
+}
+
+function save(event) {
+    event.preventDefault();
+     // Holen der Eingabewerte aus dem Formular
+     const wartungsgegenstand = document.getElementById("wartungsgegenstand").value;
+     const vorname = document.getElementById("vorname").value;
+     const nachname = document.getElementById("nachname").value;
+     const datum = document.getElementById("datum").value;
+ 
+     // Überprüfung, ob alle Felder ausgefüllt sind
+     if (wartungsgegenstand && vorname && nachname && datum) {
+         // Erstellen einer neuen Tabellenzeile
+         const newRow = document.createElement("tr");
+ 
+         // Erstellen der Zellen für die Zeile
+         const cellWartungsgegenstand = document.createElement("td");
+         const cellVorname = document.createElement("td");
+         const cellNachname = document.createElement("td");
+         const cellDatum = document.createElement("td");
+ 
+         // Setzen der Textinhalte der Zellen
+         cellWartungsgegenstand.textContent = wartungsgegenstand;
+         cellVorname.textContent = vorname;
+         cellNachname.textContent = nachname;
+         cellDatum.textContent = datum;
+ 
+         // Hinzufügen der Zellen zur Zeile
+         newRow.appendChild(cellWartungsgegenstand);
+         newRow.appendChild(cellVorname);
+         newRow.appendChild(cellNachname);
+         newRow.appendChild(cellDatum);
+ 
+         // Hinzufügen der Zeile zur Tabelle
+         const tableBody = document.querySelector(".table tbody");
+         tableBody.appendChild(newRow);
+ 
+         // Schließen des Modals
+         $('#wartungHinzufuegenModal').modal('hide');
+     } else {
+         alert("Bitte füllen Sie alle Felder aus.");
+     }
 }

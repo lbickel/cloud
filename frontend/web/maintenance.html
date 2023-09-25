@@ -17,7 +17,7 @@
             <div class="col text-right">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung
                     hinzufügen</button>
-                <button class="btn btn-primary" id="logoffButton">Abmelden</button>
+                <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
             </div>
         </div>
         <table class="table">
@@ -31,7 +31,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Wartungsgegenstand</td>
+                    <td>Ventil 1</td>
                     <td>Linda</td>
                     <td>Bickel</td>
                     <td>25.09.2023</td>
@@ -62,7 +62,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <button class="btn btn-danger" id="logoffButton">Abmelden</button>
                 </div>
                 <div class="modal-body">
                     <!-- Hier kommen die Eingabefelder für die Wartung hin -->
@@ -86,8 +85,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveButton">Speichern</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-primary">Speichern</button>
                 </div>
             </div>
         </div>
