@@ -35,11 +35,12 @@ function login(event) {
         .then((data) => {
             console.log("Token:", data);
             if (data.token) {
-                //hideLoginFailedMessage();
                 localStorage.setItem("token", data.token);
                 window.location.href = "/maintenance.html";
             } else {
-                //showLoginFailedMessage();
+                showLoginFailedMessage();
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
             }
         })
         .catch((error) => {
@@ -48,13 +49,8 @@ function login(event) {
 }
 
 function showLoginFailedMessage() {
-    const loginFailedMessage = document.getElementById("login-failed-message");
-    loginFailedMessage.classList.remove("hidden");
-}
-
-function hideLoginFailedMessage() {
-    const loginFailedMessage = document.getElementById("login-failed-message");
-    loginFailedMessage.classList.add("hidden");
+    const loginFailedMessage = document.getElementById("loginErrorMessage");
+    loginFailedMessage.style.display = "block";
 }
 
 function checkToken(token) {
