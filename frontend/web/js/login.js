@@ -4,8 +4,8 @@ window.addEventListener("load", () => {
 
 function init() {
     const loginForm = document.getElementById("login-form");
-    loginForm.addEventListener("submit", login);
-
+    loginForm.addEventListener("submit", (event)=>login(event));
+    
     // load token from local storage
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,9 +16,12 @@ function init() {
     }
 }
 
-function login() {
+function login(event) {
+    event.preventDefault();
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+
+    console.log(username, password);
 
     fetch("/auth", {
         method: "POST",
