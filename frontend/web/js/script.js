@@ -6,7 +6,7 @@ function init() {
     const maintenanceForm = document.getElementById("maintenance-form");
     maintenanceForm.addEventListener("submit", submitForm);
 
-    setDatePickerToToday();
+    //setDatePickerToToday();
 
     // load token from local storage
     const token = localStorage.getItem("token");

@@ -34,11 +34,11 @@ function login() {
         .then((data) => {
             console.log("Token:", data);
             if (data.token) {
-                hideLoginFailedMessage();
+                //hideLoginFailedMessage();
                 localStorage.setItem("token", data.token);
                 window.location.href = "/maintenance.html";
             } else {
-                showLoginFailedMessage();
+                //showLoginFailedMessage();
             }
         })
         .catch((error) => {
