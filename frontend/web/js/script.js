@@ -3,11 +3,6 @@ window.addEventListener("load", () => {
 });
 
 function init() {
-    const maintenanceForm = document.getElementById("maintenance-form");
-    maintenanceForm.addEventListener("submit", (event) => submitForm(event));
-
-    //setDatePickerToToday();
-
     // load token from local storage
     const token = localStorage.getItem("token");
     if (token) {
@@ -18,58 +13,23 @@ function init() {
         showLoginForm();
     }
 
+    getData(token); 
+
     const logoffButton = document.getElementById("logoffButton");
     logoffButton.addEventListener("click", (event) => logoff(event));
 
     const saveButton = document.getElementById("saveButton");
-    saveButton.addEventListener("click", (event) => save(event));
+    saveButton.addEventListener("click", (event) => saveData(event));
 
 }
 
-function setDatePickerToToday() {
-    const date = new Date();
-    const today = date.toISOString().substr(0, 10);
-    document.getElementById("date").value = today;
-}
-
-function submitForm(event) {
-    event.preventDefault();
-    const device = document.getElementById("device").value;
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const date = document.getElementById("date").value;
-
-    const formData = new FormData();
-    formData.append("device", device);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("date", date);
-
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInRlbmFudCI6InRlbmFudDEiLCJpYXQiOjE2OTQzNTg0MDcsImV4cCI6MTY5NDM2MjAwN30.raLQSBzpkh8VzB_LP_J7tCVwgTlUCvc9iOyFqrImGNw";
-
-    fetch("/api/schreibedaten", {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + token,
-        },
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Daten erfolgreich gespeichert:", data);
-        })
-        .catch((error) => {
-            console.error("Fehler beim Speichern der Daten:", error);
-        });
+function showLoginForm() {
+    window.location.href = "/";
 }
 
 function checkToken(token) {
     // TODO implement
     return true;
-}
-
-function showLoginForm() {
-    window.location.href = "/";
 }
 
 function logoff(event) {
@@ -78,7 +38,30 @@ function logoff(event) {
     window.location.href = "/index.html";
 }
 
-function save(event) {
+function getData(token) {
+    fetch("/maintenance-report-entry", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Hier kannst du die Daten verarbeiten, sobald sie erhalten wurden
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function saveData(event) {
     event.preventDefault();
      // Holen der Eingabewerte aus dem Formular
      const wartungsgegenstand = document.getElementById("wartungsgegenstand").value;
@@ -118,6 +101,33 @@ function save(event) {
      } else {
          alert("Bitte füllen Sie alle Felder aus.");
      }
+
+     
+    const device = document.getElementById("device").value;
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const date = document.getElementById("date").value;
+
+    const formData = new FormData();
+    formData.append("device", device);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("date", date);
+
+    fetch("/maintenance-report-entry", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Daten erfolgreich gespeichert:", data);
+        })
+        .catch((error) => {
+            console.error("Fehler beim Speichern der Daten:", error);
+        });
 }
 
 function deleteRow(icon) {
