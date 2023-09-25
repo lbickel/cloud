@@ -1,3 +1,30 @@
+# Get Started
+
+```
+minikube start --cpus=4 --memory=4000 --addons=ingress --mount-string="/run/udev:/run/udev" --mount
+```
+
+```
+helm repo add openebs https://openebs.github.io/charts
+helm repo update
+helm install openebs --namespace openebs openebs/openebs --create-namespace
+```
+
+```
+kubectl apply -f https://raw.githubusercontent.com/reactive-tech/kubegres/v1.16/kubegres.yaml
+```
+
+```
+skaffold dev
+```
+
+```
+minikube tunnel
+```
+
+Have Fun! :)
+
+
 # Teil 1 (Pfisterer)
 
 ## Zielsetzung
