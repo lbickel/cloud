@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express, { Request, Response } from "express";
 import compression from "compression";
 import { container, singleton } from "tsyringe";
-import prom from 'prom-client'
+import prom from "prom-client";
 
 import ApiMaintenanceObject from "../routes/maintenance-object.routes";
 import ApiMaintenanceReport from "../routes/maintenance-report.routes";
@@ -21,13 +21,10 @@ const app = express();
 
 app.use(express.json());
 app.use(compression());
+app.use(express.static('../../frontend/web'))
 
 
 let _tenantConnectionResolver = container.resolve(TenantConnectionResolver);
-
-
-
-
 
 app.get('/metrics', async (_req, res: Response) => {
   const tenant1Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant1");
