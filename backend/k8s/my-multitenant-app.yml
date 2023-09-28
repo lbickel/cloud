@@ -17,6 +17,17 @@ spec:
         image: my-multitenant-app #lindtschoki/my-multitenant-app:latest
         ports:
           - containerPort: 3000
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+             secretKeyRef:
+                name: mypostgres-secret
+                key: superUserPassword
+        - name: POSTGRES_REPLICATION_PASSWORD
+          valueFrom:
+             secretKeyRef:
+                name: mypostgres-secret
+                key: replicationUserPassword
 ---
 apiVersion: v1
 kind: Service
