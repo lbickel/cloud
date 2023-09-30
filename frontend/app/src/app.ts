@@ -9,8 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(compression());
-const pathToStatic = path.join(__dirname, '../../web');
-console.log(pathToStatic);
+const pathToStatic = path.join(__dirname, '/../web');
 
 app.use(express.static(pathToStatic))
 
