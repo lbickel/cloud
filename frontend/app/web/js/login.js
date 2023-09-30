@@ -21,7 +21,7 @@ function login(event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch("/auth", {
+    fetch("/api/auth", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

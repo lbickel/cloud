@@ -39,7 +39,7 @@ function logoff(event) {
 }
 
 function getData(token) {
-    fetch("/maintenance-report-entry", {
+    fetch("/api/maintenance-report-entry", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -114,7 +114,7 @@ function saveData(event) {
     formData.append("lastName", lastName);
     formData.append("date", date);
 
-    fetch("/maintenance-report-entry", {
+    fetch("/api/maintenance-report-entry", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
