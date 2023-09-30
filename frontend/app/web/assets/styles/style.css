@@ -1,0 +1,25 @@
+.input {
+    width: 50%;
+    margin: 0 auto;
+
+}
+
+.form-floating {
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.card {
+    max-width: 400px;
+    width: 100%;
+}
