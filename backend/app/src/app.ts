@@ -26,7 +26,7 @@ app.use(express.static('../../frontend/web'))
 
 let _tenantConnectionResolver = container.resolve(TenantConnectionResolver);
 
-app.get('/metrics', async (_req, res: Response) => {
+app.get('/api/metrics', async (_req, res: Response) => {
   const tenant1Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant1");
 //   const tenant2Prisma = await _tenantConnectionResolver.connectionOfTenant("tenant2");
 
@@ -44,10 +44,10 @@ const maintenanceReportEntry = new ApiMaintenanceReportEntry();
 const auth = new Authentication();
 
 
-app.use('/', maintenanceObject.router);
-app.use('/', maintenanceReport.router);
-app.use('/', maintenanceReportEntry.router);
-app.use('/', auth.router);
+app.use('/api', maintenanceObject.router);
+app.use('/api', maintenanceReport.router);
+app.use('/api', maintenanceReportEntry.router);
+app.use('/api', auth.router);
 
 
 const port = process.env.SERVER_PORT || 3000;
