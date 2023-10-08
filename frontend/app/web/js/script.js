@@ -161,4 +161,26 @@ function deleteRow(icon) {
     }
     const row = icon.parentElement.parentElement;
     row.remove();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bitte loggen Sie sich ein.");
+        return;
+    }
+
+    // remove from database
+    const id = row.children[3].textContent;
+    fetch(`/api/maintenance-report-entry/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Daten erfolgreich gelöscht:", data);
+        })
+        .catch((error) => {
+            console.error("Fehler beim Löschen der Daten:", error);
+        });
 }
