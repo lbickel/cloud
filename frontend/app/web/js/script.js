@@ -13,15 +13,16 @@ function init() {
 
     // if token exists, check if it is still valid
     checkToken(token);
-
     getData(token);
+    initButtons();
+}
 
+function initButtons() {
     const logoffButton = document.getElementById("logoffButton");
     logoffButton.addEventListener("click", (event) => logoff(event));
 
     const saveButton = document.getElementById("saveButton");
     saveButton.addEventListener("click", (event) => saveData(event));
-
 }
 
 function showLoginForm() {
@@ -133,6 +134,7 @@ function addRow(maintenanceReportEntry) {
     const icon = document.createElement("span");
     icon.classList.add("delete-icon");
     icon.innerHTML = "&#128465;"
+    icon.style.cursor = "pointer";
     icon.addEventListener("click", () => deleteRow(icon));
 
     cellDevice.textContent = maintenanceReportEntry.maintenanceObject;
@@ -152,6 +154,11 @@ function addRow(maintenanceReportEntry) {
 }
 
 function deleteRow(icon) {
+    // show confirmation dialog
+    const result = confirm("Wollen Sie den Eintrag wirklich löschen?");
+    if (!result) {
+        return;
+    }
     const row = icon.parentElement.parentElement;
     row.remove();
 }
