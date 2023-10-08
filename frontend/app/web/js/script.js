@@ -5,15 +5,16 @@ window.addEventListener("load", () => {
 function init() {
     // load token from local storage
     const token = localStorage.getItem("token");
-    if (token) {
-        // if token exists, check if it is still valid
-        checkToken(token);
-    } else {
+    if (!token) {
         // if no token exists, show login form
         showLoginForm();
+        return;
     }
 
-    getData(token); 
+    // if token exists, check if it is still valid
+    checkToken(token);
+
+    getData(token);
 
     const logoffButton = document.getElementById("logoffButton");
     logoffButton.addEventListener("click", (event) => logoff(event));
@@ -46,73 +47,61 @@ function getData(token) {
             "Authorization": `Bearer ${token}`
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Hier kannst du die Daten verarbeiten, sobald sie erhalten wurden
-        console.log(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Hier kannst du die Daten verarbeiten, sobald sie erhalten wurden
+            console.log(data);
+            data.forEach(maintenanceReportEntry => {
+                addRow(maintenanceReportEntry);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function saveData(event) {
     event.preventDefault();
-     // Holen der Eingabewerte aus dem Formular
-     const wartungsgegenstand = document.getElementById("wartungsgegenstand").value;
-     const vorname = document.getElementById("vorname").value;
-     const nachname = document.getElementById("nachname").value;
-     const datum = document.getElementById("datum").value;
- 
-     // Überprüfung, ob alle Felder ausgefüllt sind
-     if (wartungsgegenstand && vorname && nachname && datum) {
-         // Erstellen einer neuen Tabellenzeile
-         const newRow = document.createElement("tr");
- 
-         // Erstellen der Zellen für die Zeile
-         const cellWartungsgegenstand = document.createElement("td");
-         const cellVorname = document.createElement("td");
-         const cellNachname = document.createElement("td");
-         const cellDatum = document.createElement("td");
- 
-         // Setzen der Textinhalte der Zellen
-         cellWartungsgegenstand.textContent = wartungsgegenstand;
-         cellVorname.textContent = vorname;
-         cellNachname.textContent = nachname;
-         cellDatum.textContent = datum;
- 
-         // Hinzufügen der Zellen zur Zeile
-         newRow.appendChild(cellWartungsgegenstand);
-         newRow.appendChild(cellVorname);
-         newRow.appendChild(cellNachname);
-         newRow.appendChild(cellDatum);
- 
-         // Hinzufügen der Zeile zur Tabelle
-         const tableBody = document.querySelector(".table tbody");
-         tableBody.appendChild(newRow);
- 
-         // Schließen des Modals
-         $('#wartungHinzufuegenModal').modal('hide');
-     } else {
-         alert("Bitte füllen Sie alle Felder aus.");
-     }
+    // Holen der Eingabewerte aus dem Formular
+    const wartungsgegenstand = document.getElementById("wartungsgegenstand").value;
+    const vorname = document.getElementById("vorname").value;
+    const nachname = document.getElementById("nachname").value;
+    const datum = document.getElementById("datum").value;
 
-     
-    const device = document.getElementById("device").value;
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const date = document.getElementById("date").value;
+    // Überprüfung, ob alle Felder ausgefüllt sind
+    if (!wartungsgegenstand || !vorname || !nachname || !datum) {
+        alert("Bitte füllen Sie alle Felder aus.");
+        return;
+    }
+
+    const maintenanceReportEntry = {
+        maintenanceObject: wartungsgegenstand,
+        maintainer: vorname + " " + nachname,
+        date: datum,
+        id: uuidv4()
+    };
+
+    addRow(maintenanceReportEntry);
+
+    // Schließen des Modals
+    $('#wartungHinzufuegenModal').modal('hide');
 
     const formData = new FormData();
-    formData.append("device", device);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("date", date);
+    formData.append("name", wartungsgegenstand);
+    formData.append("maintainer", vorname);
+    formData.append("lastName", nachname);
+    formData.append("date", datum);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bitte loggen Sie sich ein.");
+        return;
+    }
 
     fetch("/api/maintenance-report-entry", {
         method: "POST",
@@ -128,6 +117,38 @@ function saveData(event) {
         .catch((error) => {
             console.error("Fehler beim Speichern der Daten:", error);
         });
+}
+
+function addRow(maintenanceReportEntry) {
+    const tableBody = document.querySelector(".table tbody");
+
+    const newRow = document.createElement("tr");
+
+    const cellDevice = document.createElement("td");
+    const cellMaintainer = document.createElement("td");
+    const cellDate = document.createElement("td");
+    const cellId = document.createElement("td");
+    const cellDelete = document.createElement("td");
+
+    const icon = document.createElement("span");
+    icon.classList.add("delete-icon");
+    icon.innerHTML = "&#128465;"
+    icon.addEventListener("click", () => deleteRow(icon));
+
+    cellDevice.textContent = maintenanceReportEntry.maintenanceObject;
+    cellMaintainer.textContent = maintenanceReportEntry.maintainer;
+    cellDate.textContent = maintenanceReportEntry.date;
+    cellId.textContent = maintenanceReportEntry.id;
+
+    cellDelete.appendChild(icon);
+
+    newRow.appendChild(cellDevice);
+    newRow.appendChild(cellMaintainer);
+    newRow.appendChild(cellDate);
+    newRow.appendChild(cellId);
+    newRow.appendChild(cellDelete);
+
+    tableBody.appendChild(newRow);
 }
 
 function deleteRow(icon) {
