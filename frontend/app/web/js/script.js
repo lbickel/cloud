@@ -53,12 +53,12 @@ function initAddModal() {
     // update modal title
     document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung hinzufügen";
     // clear form
-    document.getElementById("wartungsgegenstand").value = "";
-    document.getElementById("vorname").value = "";
-    document.getElementById("nachname").value = "";
+    document.getElementById("maintenance-object").value = "";
+    document.getElementById("first-name").value = "";
+    document.getElementById("last-name").value = "";
     // set date to today
     const today = new Date().toISOString().split("T")[0];
-    document.getElementById("datum").value = today;
+    document.getElementById("date").value = today;
 }
 
 function initAddObjectModal() {
@@ -223,7 +223,7 @@ function getMaintenanceObjects(token) {
 }
 
 function addMaintenanceObjectsToDropdown(data) {
-    const dropdown = document.getElementById("wartungsgegenstand");
+    const dropdown = document.getElementById("maintenance-object");
     // clear dropdown
     dropdown.innerHTML = "";
 
@@ -239,23 +239,23 @@ function addMaintenanceObjectsToDropdown(data) {
 function saveData(event) {
     event.preventDefault();
     // Holen der Eingabewerte aus dem Formular
-    const wartungsgegenstand = document.getElementById("wartungsgegenstand").value;
-    const vorname = document.getElementById("vorname").value;
-    const nachname = document.getElementById("nachname").value;
-    const datum = document.getElementById("datum").value;
+    const maintenanceObject = document.getElementById("maintenance-object").value;
+    const firstName = document.getElementById("first-name").value;
+    const lastName = document.getElementById("last-name").value;
+    const date = document.getElementById("date").value;
 
     // Überprüfung, ob alle Felder ausgefüllt sind
-    if (!wartungsgegenstand || !vorname || !nachname || !datum) {
+    if (!maintenanceObject || !firstName || !lastName || !date) {
         alert("Bitte füllen Sie alle Felder aus.");
         return;
     }
 
     // date is yyyy-mm-dd, but input expects dd-mm-yyyy
-    const dateParts = datum.split("-");
+    const dateParts = date.split("-");
     const dateInput = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
     // get maintenance object id
-    const maintenanceObjectId = maintenanceObjects[wartungsgegenstand];
+    const maintenanceObjectId = maintenanceObjects[maintenanceObject];
     // get maintenance report id
     const year = dateParts[0];
     const maintenanceReportId = maintenanceReports[year];
@@ -265,14 +265,8 @@ function saveData(event) {
         createMaintenanceReport(token, Number(year));
     }
 
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < 2000);
-
     const maintenanceReportEntry = {
-        maintainer: vorname + " " + nachname,
+        maintainer: firstName + " " + lastName,
         date: dateInput,
         maintenanceObjectId: maintenanceObjectId,
         maintenanceReportId: maintenanceReportId
@@ -355,16 +349,16 @@ function updateTable(id, data) {
 function saveObject(event) {
     event.preventDefault();
     // Holen der Eingabewerte aus dem Formular
-    const wartungsgegenstand = document.getElementById("objekt").value;
+    const maintenanceObject = document.getElementById("objekt").value;
 
     // Überprüfung, ob alle Felder ausgefüllt sind
-    if (!wartungsgegenstand) {
+    if (!maintenanceObject) {
         alert("Bitte füllen Sie alle Felder aus.");
         return;
     }
 
     const maintenanceObjectEntry = {
-        name: wartungsgegenstand,
+        name: maintenanceObject,
     };
 
     // Schließen des Modals
@@ -446,10 +440,10 @@ function editRow(icon) {
     const dateParts = date.split("-");
     const dateInput = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
-    document.getElementById("wartungsgegenstand").value = device;
-    document.getElementById("vorname").value = maintainer.split(" ")[0];
-    document.getElementById("nachname").value = maintainer.split(" ")[1];
-    document.getElementById("datum").value = dateInput;
+    document.getElementById("maintenance-object").value = device;
+    document.getElementById("first-name").value = maintainer.split(" ")[0];
+    document.getElementById("last-name").value = maintainer.split(" ")[1];
+    document.getElementById("date").value = dateInput;
 
     // update modal title
     document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung bearbeiten";
