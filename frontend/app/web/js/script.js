@@ -31,8 +31,14 @@ function initButtons() {
     const addButton = document.getElementById("addButton");
     addButton.addEventListener("click", () => initAddModal());
 
+    const addObjectButton = document.getElementById("addObjectButton");
+    addObjectButton.addEventListener("click", () => initAddObjectModal());
+
     const saveButton = document.getElementById("saveButton");
     saveButton.addEventListener("click", (event) => saveData(event));
+
+    const saveObjectButton = document.getElementById("saveObjectButton");
+    saveObjectButton.addEventListener("click", (event) => saveObject(event));
 
     const dropdown = document.getElementById("wartungsbericht");
     dropdown.addEventListener("change", (event) => changeMaintenanceReport(event));
@@ -57,6 +63,13 @@ function initAddModal() {
     // set date to today
     const today = new Date().toISOString().split("T")[0];
     document.getElementById("datum").value = today;
+}
+
+function initAddObjectModal() {
+    // update modal title
+    document.getElementById("wartungsobjektHinzufuegenModalLabel").textContent = "Wartungsobjekt hinzufügen";
+    // clear form
+    document.getElementById("objekt").value = "";
 }
 
 function logoff(event) {
@@ -168,28 +181,6 @@ function getMaintenanceReports(token) {
     });
 }
 
-function getMaintenanceReportEntries(token) {
-    fetch("/api/maintenance-report-entry", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    }).then(data => {
-        console.log(data);
-        data.forEach(maintenanceReportEntry => {
-            addRow(maintenanceReportEntry);
-        });
-    }).catch(error => {
-        console.error('Error:', error);
-    });
-}
-
 function getMaintenanceReportEntriesByYear(token, year) {
     fetch(`/api/maintenance-report/?year=${year}`, {
         method: "GET",
@@ -270,7 +261,6 @@ function saveData(event) {
     const maintenanceReportId = maintenanceReports[year];
 
     const maintenanceReportEntry = {
-        maintenanceObject: wartungsgegenstand,
         maintainer: vorname + " " + nachname,
         date: dateInput,
         maintenanceObjectId: maintenanceObjectId,
@@ -313,6 +303,7 @@ function createMaintenanceReportEntry(token, maintenanceReportEntry) {
             const tableBody = document.querySelector(".table tbody");
             tableBody.innerHTML = "";
             // get data for selected year
+            // TODO: Use method
             fetch(`/api/maintenance-report/?year=${year}`, {
                 method: "GET",
                 headers: {
@@ -373,6 +364,51 @@ function updateTable(id, data) {
             break;
         }
     }
+}
+
+function saveObject(event) {
+    event.preventDefault();
+    // Holen der Eingabewerte aus dem Formular
+    const wartungsgegenstand = document.getElementById("objekt").value;
+
+    // Überprüfung, ob alle Felder ausgefüllt sind
+    if (!wartungsgegenstand) {
+        alert("Bitte füllen Sie alle Felder aus.");
+        return;
+    }
+
+    const maintenanceObjectEntry = {
+        name: wartungsgegenstand,
+    };
+
+    // Schließen des Modals
+    $('#wartungsobjektHinzufuegenModal').modal('hide');
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bitte loggen Sie sich ein.");
+        return;
+    }
+    createMaintenanceObjectEntry(token, maintenanceObjectEntry);
+}
+
+function createMaintenanceObjectEntry(token, maintenanceObjectEntry) {
+    fetch("/api/maintenance-object", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(maintenanceObjectEntry),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Daten erfolgreich gespeichert:", data);
+            getMaintenanceObjects(token);
+        })
+        .catch((error) => {
+            console.error("Fehler beim Speichern der Daten:", error);
+        });
 }
 
 function addRow(data) {
