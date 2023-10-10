@@ -218,14 +218,7 @@ function getMaintenanceObjects(token) {
         return response.json();
     }).then(data => {
         console.log(data);
-        data.forEach(maintenanceObject => {
-            // add to dropdown
-            const dropdown = document.getElementById("wartungsgegenstand");
-            const option = document.createElement("option");
-            option.value = maintenanceObject.name;
-            option.textContent = maintenanceObject.name;
-            dropdown.appendChild(option);
-        });
+        addMaintenanceObjectsToDropdown(data);
         // save id of each maintenance object
         data.forEach(maintenanceObject => {
             maintenanceObjects[maintenanceObject.name] = maintenanceObject.id;
@@ -233,6 +226,20 @@ function getMaintenanceObjects(token) {
 
     }).catch(error => {
         console.error('Error:', error);
+    });
+}
+
+function addMaintenanceObjectsToDropdown(data) {
+    const dropdown = document.getElementById("wartungsgegenstand");
+    // clear dropdown
+    dropdown.innerHTML = "";
+
+    data.forEach(maintenanceObject => {
+        // add to dropdown
+        const option = document.createElement("option");
+        option.value = maintenanceObject.name;
+        option.textContent = maintenanceObject.name;
+        dropdown.appendChild(option);
     });
 }
 
@@ -297,7 +304,7 @@ function createMaintenanceReportEntry(token, maintenanceReportEntry) {
             console.log("Daten erfolgreich gespeichert:", data);
             const dropdown = document.getElementById("wartungsbericht");
             const dateParts = maintenanceReportEntry.date.split("-");
-            const year = `${dateParts[2]}`;        
+            const year = `${dateParts[2]}`;
             dropdown.value = year;
             // clear table            
             const tableBody = document.querySelector(".table tbody");
