@@ -266,7 +266,7 @@ function saveData(event) {
     // get maintenance object id
     const maintenanceObjectId = maintenanceObjects[wartungsgegenstand];
     // get maintenance report id
-    const year = document.getElementById("wartungsbericht").value;
+    const year = dateParts[0];
     const maintenanceReportId = maintenanceReports[year];
 
     const maintenanceReportEntry = {
@@ -305,7 +305,34 @@ function createMaintenanceReportEntry(token, maintenanceReportEntry) {
         .then((response) => response.json())
         .then((data) => {
             console.log("Daten erfolgreich gespeichert:", data);
-            addRow(data);
+            const dropdown = document.getElementById("wartungsbericht");
+            const dateParts = maintenanceReportEntry.date.split("-");
+            const year = `${dateParts[2]}`;        
+            dropdown.value = year;
+            // clear table            
+            const tableBody = document.querySelector(".table tbody");
+            tableBody.innerHTML = "";
+            // get data for selected year
+            fetch(`/api/maintenance-report/?year=${year}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                // add data entries to table
+                data.entries.forEach(maintenanceReportEntry => {
+                    addRow(maintenanceReportEntry);
+                });
+            }).catch(error => {
+                console.error('Error:', error);
+            });
         })
         .catch((error) => {
             console.error("Fehler beim Speichern der Daten:", error);
