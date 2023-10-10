@@ -21,17 +21,17 @@
                 </select>
             </div>
             <div class="col text-right">
-                <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung
-                    hinzufügen</button>
+                <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung hinzufügen</button>
+                <button class="btn btn-primary" id="addObjectButton" data-toggle="modal" data-target="#wartungsobjektHinzufuegenModal">Wartungsobjekt hinzufügen</button>
                 <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
             </div>
         </div>
         <table class="table table-bordered table-hover">
             <thead class="table-primary">
                 <tr>
-                    <th>Wartungsgegenstand (maintainenanceObject)</th>
-                    <th>Vorname (maintainer)</th>
-                    <th>Datum (date)</th>
+                    <th>Wartungsgegenstand</th>
+                    <th>Name</th>
+                    <th>Datum</th>
                     <th>ID</th>
                     <th></th>
                 </tr>
@@ -79,6 +79,34 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="saveButton">Speichern</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal für das Hinzufügen eines Wartungsobjekts -->
+    <div class="modal fade" id="wartungsobjektHinzufuegenModal" tabindex="-1" role="dialog"
+        aria-labelledby="wartungsobjektHinzufuegenModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="wartungsobjektHinzufuegenModalLabel">Wartungsobjekt hinzufügen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Hier kommen die Eingabefelder für das Wartungsobjekt hin -->
+                    <form id="maintenance-form">
+                        <div class="form-group">
+                            <label for="objekt">Wartungsobjekt</label>
+                            <input type="text" class="form-control" id="objekt">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveObjectButton">Speichern</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
