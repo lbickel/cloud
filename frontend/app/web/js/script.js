@@ -28,6 +28,9 @@ function initButtons() {
     const logoffButton = document.getElementById("logoffButton");
     logoffButton.addEventListener("click", (event) => logoff(event));
 
+    const addButton = document.getElementById("addButton");
+    addButton.addEventListener("click", () => initAddModal());
+
     const saveButton = document.getElementById("saveButton");
     saveButton.addEventListener("click", (event) => saveData(event));
 
@@ -42,6 +45,18 @@ function showLoginForm() {
 function checkToken(token) {
     // TODO implement
     return true;
+}
+
+function initAddModal() {
+    // update modal title
+    document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung hinzufügen";
+    // clear form
+    document.getElementById("wartungsgegenstand").value = "";
+    document.getElementById("vorname").value = "";
+    document.getElementById("nachname").value = "";
+    // set date to today
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("datum").value = today;
 }
 
 function logoff(event) {
@@ -389,6 +404,9 @@ function editRow(icon) {
     document.getElementById("vorname").value = maintainer.split(" ")[0];
     document.getElementById("nachname").value = maintainer.split(" ")[1];
     document.getElementById("datum").value = dateInput;
+
+    // update modal title
+    document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung bearbeiten";
 
     $('#wartungHinzufuegenModal').modal('show');
 }
