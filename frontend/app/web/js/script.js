@@ -310,27 +310,7 @@ function createMaintenanceReportEntry(token, maintenanceReportEntry) {
             const tableBody = document.querySelector(".table tbody");
             tableBody.innerHTML = "";
             // get data for selected year
-            // TODO: Use method
-            fetch(`/api/maintenance-report/?year=${year}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            }).then(data => {
-                console.log(data);
-                // add data entries to table
-                data.entries.forEach(maintenanceReportEntry => {
-                    addRow(maintenanceReportEntry);
-                });
-            }).catch(error => {
-                console.error('Error:', error);
-            });
+            getMaintenanceReportEntriesByYear(token, year);            
         })
         .catch((error) => {
             console.error("Fehler beim Speichern der Daten:", error);
