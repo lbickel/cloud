@@ -10,15 +10,7 @@ window.addEventListener("load", () => {
 });
 
 function init() {
-    // load token from local storage
     const token = localStorage.getItem("token");
-    if (!token) {
-        // if no token exists, show login form
-        showLoginForm();
-        return;
-    }
-
-    // if token exists, check if it is still valid
     checkToken(token);
     getData(token);
     initButtons();
@@ -49,7 +41,11 @@ function showLoginForm() {
 }
 
 function checkToken(token) {
-    // TODO implement
+    if (!token) {
+        alert("Bitte loggen Sie sich ein.");
+        logoff();
+        return false;
+    }
     return true;
 }
 
@@ -88,10 +84,7 @@ function changeMaintenanceReport(event) {
     event.preventDefault();
     const year = event.target.value;
     const token = localStorage.getItem("token");
-    if (!token) {
-        alert("Bitte loggen Sie sich ein.");
-        return;
-    }
+    checkToken(token);
     // clear table
     const tableBody = document.querySelector(".table tbody");
     tableBody.innerHTML = "";
@@ -266,6 +259,17 @@ function saveData(event) {
     // get maintenance report id
     const year = dateParts[0];
     const maintenanceReportId = maintenanceReports[year];
+    const token = localStorage.getItem("token");
+    if (!maintenanceReportId) {
+        checkToken(token);
+        createMaintenanceReport(token, Number(year));
+    }
+
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < 2000);
 
     const maintenanceReportEntry = {
         maintainer: vorname + " " + nachname,
@@ -277,12 +281,7 @@ function saveData(event) {
     // Schließen des Modals
     $('#wartungHinzufuegenModal').modal('hide');
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-        alert("Bitte loggen Sie sich ein.");
-        return;
-    }
-
+   checkToken(token);
     if (edit) {
         updateMaintenanceReportEntry(token, maintenanceReportEntry);
         return;
@@ -372,10 +371,7 @@ function saveObject(event) {
     $('#wartungsobjektHinzufuegenModal').modal('hide');
 
     const token = localStorage.getItem("token");
-    if (!token) {
-        alert("Bitte loggen Sie sich ein.");
-        return;
-    }
+    checkToken(token);
     createMaintenanceObjectEntry(token, maintenanceObjectEntry);
 }
 
@@ -471,10 +467,7 @@ function deleteRow(icon) {
     row.remove();
 
     const token = localStorage.getItem("token");
-    if (!token) {
-        alert("Bitte loggen Sie sich ein.");
-        return;
-    }
+    checkToken(token);
 
     // remove from database
     const id = row.children[3].textContent;
