@@ -15,6 +15,11 @@
     <div class="container mt-5">
         <h1 class="h3 mb-3 font-weight-bold">Wartungsliste</h1>
         <div class="row mb-3">
+            <div class="col text-left">
+                <select class="form-control" id="wartungsbericht">
+                    <!-- Hier kommen die Wartungsberichte hin -->
+                </select>
+            </div>
             <div class="col text-right">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung
                     hinzufügen</button>
@@ -53,7 +58,10 @@
                     <form id="maintenance-form">
                         <div class="form-group">
                             <label for="wartungsgegenstand">Wartungsgegenstand</label>
-                            <input type="text" class="form-control" id="wartungsgegenstand">
+                            <!-- Dropdown Select -->
+                            <select class="form-control" id="wartungsgegenstand">
+                                <!-- Hier kommen die Wartungsgegenstände hin -->
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="vorname">Vorname</label>
