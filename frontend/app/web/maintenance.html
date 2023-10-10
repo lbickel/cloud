@@ -16,13 +16,13 @@
         <h1 class="h3 mb-3 font-weight-bold">Wartungsliste</h1>
         <div class="row mb-3">
             <div class="col text-left">
-                <select class="form-control" id="wartungsbericht">
+                <select class="form-control" id="maintenance-report">
                     <!-- Hier kommen die Wartungsberichte hin -->
                 </select>
             </div>
             <div class="col text-right">
-                <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung hinzufügen</button>
-                <button class="btn btn-primary" id="addObjectButton" data-toggle="modal" data-target="#wartungsobjektHinzufuegenModal">Wartungsobjekt hinzufügen</button>
+                <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#add-maintenance-modal">Wartung hinzufügen</button>
+                <button class="btn btn-primary" id="addObjectButton" data-toggle="modal" data-target="#add-maintenance-object-modal">Wartungsobjekt hinzufügen</button>
                 <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
             </div>
         </div>
@@ -43,12 +43,12 @@
     </div>
 
     <!-- Modal für das Hinzufügen einer Wartung -->
-    <div class="modal fade" id="wartungHinzufuegenModal" tabindex="-1" role="dialog"
-        aria-labelledby="wartungHinzufuegenModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-maintenance-modal" tabindex="-1" role="dialog"
+        aria-labelledby="add-maintenance-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="wartungHinzufuegenModalLabel">Wartung hinzufügen</h5>
+                    <h5 class="modal-title" id="add-maintenance-modal-label">Wartung hinzufügen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -86,12 +86,12 @@
     </div>
 
     <!-- Modal für das Hinzufügen eines Wartungsobjekts -->
-    <div class="modal fade" id="wartungsobjektHinzufuegenModal" tabindex="-1" role="dialog"
-        aria-labelledby="wartungsobjektHinzufuegenModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-maintenance-object-modal" tabindex="-1" role="dialog"
+        aria-labelledby="add-maintenance-object-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="wartungsobjektHinzufuegenModalLabel">Wartungsobjekt hinzufügen</h5>
+                    <h5 class="modal-title" id="add-maintenance-object-modal-label">Wartungsobjekt hinzufügen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -32,7 +32,7 @@ function initButtons() {
     const saveObjectButton = document.getElementById("saveObjectButton");
     saveObjectButton.addEventListener("click", (event) => saveObject(event));
 
-    const dropdown = document.getElementById("wartungsbericht");
+    const dropdown = document.getElementById("maintenance-report");
     dropdown.addEventListener("change", (event) => changeMaintenanceReport(event));
 }
 
@@ -51,7 +51,7 @@ function checkToken(token) {
 
 function initAddModal() {
     // update modal title
-    document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung hinzufügen";
+    document.getElementById("add-maintenance-modal-label").textContent = "Wartung hinzufügen";
     // clear form
     document.getElementById("maintenance-object").value = "";
     document.getElementById("first-name").value = "";
@@ -63,7 +63,7 @@ function initAddModal() {
 
 function initAddObjectModal() {
     // update modal title
-    document.getElementById("wartungsobjektHinzufuegenModalLabel").textContent = "Wartungsobjekt hinzufügen";
+    document.getElementById("add-maintenance-object-modal-label").textContent = "Wartungsobjekt hinzufügen";
     // clear form
     document.getElementById("objekt").value = "";
 }
@@ -153,7 +153,7 @@ function getMaintenanceReports(token) {
     }).then(data => {
         console.log(data);
         // add to dropdown sorted by year
-        const dropdown = document.getElementById("wartungsbericht");
+        const dropdown = document.getElementById("maintenance-report");
         data.sort((a, b) => a.year - b.year);
         data.forEach(maintenanceReport => {
             const option = document.createElement("option");
@@ -273,7 +273,7 @@ function saveData(event) {
     };
 
     // Schließen des Modals
-    $('#wartungHinzufuegenModal').modal('hide');
+    $('#add-maintenance-modal').modal('hide');
 
    checkToken(token);
     if (edit) {
@@ -295,7 +295,7 @@ function createMaintenanceReportEntry(token, maintenanceReportEntry) {
         .then((response) => response.json())
         .then((data) => {
             console.log("Daten erfolgreich gespeichert:", data);
-            const dropdown = document.getElementById("wartungsbericht");
+            const dropdown = document.getElementById("maintenance-report");
             const dateParts = maintenanceReportEntry.date.split("-");
             const year = `${dateParts[2]}`;
             dropdown.value = year;
@@ -362,7 +362,7 @@ function saveObject(event) {
     };
 
     // Schließen des Modals
-    $('#wartungsobjektHinzufuegenModal').modal('hide');
+    $('#add-maintenance-object-modal').modal('hide');
 
     const token = localStorage.getItem("token");
     checkToken(token);
@@ -446,9 +446,9 @@ function editRow(icon) {
     document.getElementById("date").value = dateInput;
 
     // update modal title
-    document.getElementById("wartungHinzufuegenModalLabel").textContent = "Wartung bearbeiten";
+    document.getElementById("add-maintenance-modal-label").textContent = "Wartung bearbeiten";
 
-    $('#wartungHinzufuegenModal').modal('show');
+    $('#add-maintenance-modal').modal('show');
 }
 
 function deleteRow(icon) {
