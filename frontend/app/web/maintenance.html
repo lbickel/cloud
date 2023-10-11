@@ -9,22 +9,23 @@
     <script src="js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/styles/maintenance_style.css">
 </head>
 
 <body>
     <div class="container mt-5">
         <h1 class="h3 mb-3 font-weight-bold">Wartungsliste</h1>
-        <div class="row mb-3">
+        <div class="row-mb-3">
             <div class="col text-left">
                 <select class="form-control" id="maintenance-report">
                     <!-- Hier kommen die Wartungsberichte hin -->
                 </select>
             </div>
             <div class="col text-right">
-                <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#add-maintenance-modal">Wartung hinzufügen</button>
-                <button class="btn btn-primary" id="editObjectsButton" data-toggle="modal" data-target="#add-maintenance-object-modal">Wartungsobjekt hinzufügen</button>
-                <button class="btn btn-primary" id="editReportsButton" data-toggle="modal" data-target="#edit-maintenance-reports-modal">Wartungsberichte verwalten</button>
-                <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
+                    <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#add-maintenance-modal">Wartung hinzufügen</button>
+                    <button class="btn btn-primary" id="editObjectsButton" data-toggle="modal" data-target="#add-maintenance-object-modal">Wartungsobjekt verwalten</button>
+                    <button class="btn btn-primary" id="editReportsButton" data-toggle="modal" data-target="#edit-maintenance-reports-modal">Wartungsberichte verwalten</button>
+                    <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
             </div>
         </div>
         <table class="table table-bordered table-hover">
@@ -42,7 +43,7 @@
                 <td colspan="5">Keine Einträge vorhanden</td>
             </tbody>
         </table>
-    </div>
+    </div>    
 
     <!-- Modal für das Hinzufügen einer Wartung -->
     <div class="modal fade" id="add-maintenance-modal" tabindex="-1" role="dialog"
@@ -87,13 +88,13 @@
         </div>
     </div>
 
-    <!-- Modal für das Hinzufügen eines Wartungsobjekts -->
+    <!-- Modal für das Verwalten eines Wartungsobjekts -->
     <div class="modal fade" id="add-maintenance-object-modal" tabindex="-1" role="dialog"
         aria-labelledby="add-maintenance-object-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="add-maintenance-object-modal-label">Wartungsobjekt hinzufügen</h5>
+                    <h5 class="modal-title" id="add-maintenance-object-modal-label">Wartungsobjekte verwalten</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -115,13 +116,13 @@
                     <!-- Hier kommen die Eingabefelder für das Wartungsobjekt hin -->
                     <form id="maintenance-form">
                         <div class="form-group">
-                            <label for="objekt">Wartungsobjekt</label>
+                            <label for="objekt">Wartungsobjekt hinzufügen</label>
                             <input type="text" class="form-control" id="objekt">
+                            <button type="button" class="btn btn-primary" id="saveObjectButton">Hinzufügen</button>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="saveObjectButton">Speichern</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
@@ -162,7 +163,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
                 </div>
             </div>

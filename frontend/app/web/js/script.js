@@ -69,7 +69,7 @@ function initAddModal() {
 
 async function initEditObjectsModal() {
     // update modal title
-    document.getElementById("add-maintenance-object-modal-label").textContent = "Wartungsobjekt hinzufügen";
+    document.getElementById("add-maintenance-object-modal-label").textContent = "Wartungsobjekte verwalten";
     // clear form
     document.getElementById("objekt").value = "";
     const token = localStorage.getItem("token");
