@@ -32,6 +32,9 @@ function initButtons() {
     const saveObjectButton = document.getElementById("saveObjectButton");
     saveObjectButton.addEventListener("click", (event) => saveObject(event));
 
+    const saveReportButton = document.getElementById("add-maintenance-report-button");
+    saveReportButton.addEventListener("click", (event) => saveReport(event));
+
     const editReportsButton = document.getElementById("editReportsButton");
     editReportsButton.addEventListener("click", () => initEditReportsModal());
 
@@ -487,7 +490,7 @@ async function saveObject(event) {
 
     // Überprüfung, ob alle Felder ausgefüllt sind
     if (!maintenanceObject) {
-        alert("Bitte füllen Sie alle Felder aus.");
+        alert("Bitte füllen Sie das Feld aus.");
         return;
     }
 
@@ -520,6 +523,33 @@ async function createMaintenanceObjectEntry(token, maintenanceObjectEntry) {
     } catch (error) {
         console.error("Fehler beim Speichern der Daten:", error);
     }
+}
+
+async function saveReport(event) {
+    event.preventDefault();
+    // Holen der Eingabewerte aus dem Formular
+    const year = document.getElementById("add-maintenance-report").value;
+
+    // Überprüfung, ob alle Felder ausgefüllt sind
+    if (!year) {
+        alert("Bitte füllen Sie das Feld aus.");
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    checkToken(token);
+    await createMaintenanceReport(token, Number(year));
+    await updateMaintenanceReportList(token);
+}
+
+async function updateMaintenanceReportList(token) {
+    const data = await getMaintenanceReports(token);
+    // save id of each maintenance report
+    data.forEach(maintenanceReport => {
+        maintenanceReports[maintenanceReport.year] = maintenanceReport.id;
+    });
+
+    initEditReportsModal();
 }
 
 function addRow(data) {
