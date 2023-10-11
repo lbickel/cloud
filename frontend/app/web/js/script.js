@@ -261,6 +261,15 @@ async function getMaintenanceReports(token) {
 
 async function updateMaintenanceReports(token) {
 
+    // clear dropdown
+    const dropdown = document.getElementById("maintenance-report");
+    dropdown.innerHTML = "";
+
+    // clear global maintenanceReports
+    Object.keys(maintenanceReports).forEach(key => {
+        delete maintenanceReports[key];
+    });
+
     const data = await getMaintenanceReports(token);
     if (!data || data.length === 0) {
         // show message that no maintenance reports exist
@@ -272,15 +281,6 @@ async function updateMaintenanceReports(token) {
         dropdown.appendChild(option);
         return;
     }
-
-    // clear dropdown
-    const dropdown = document.getElementById("maintenance-report");
-    dropdown.innerHTML = "";
-
-    // clear global maintenanceReports
-    Object.keys(maintenanceReports).forEach(key => {
-        delete maintenanceReports[key];
-    });
 
     // add to dropdown sorted by year
     data.sort((a, b) => a.year - b.year);
@@ -533,6 +533,18 @@ async function saveReport(event) {
     // Überprüfung, ob alle Felder ausgefüllt sind
     if (!year) {
         alert("Bitte füllen Sie das Feld aus.");
+        return;
+    }
+
+    // check if year is valid 4 digit number
+    if (isNaN(year) || year.length !== 4) {
+        alert("Bitte geben Sie eine gültige Jahreszahl ein.");
+        return;
+    }
+
+    // check if report already exists
+    if (maintenanceReports[year]) {
+        alert("Ein Wartungsbericht für das Jahr " + year + " existiert bereits.");
         return;
     }
 
