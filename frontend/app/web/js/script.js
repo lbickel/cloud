@@ -9,11 +9,14 @@ window.addEventListener("load", () => {
     init();
 });
 
-function init() {
+async function init() {
     const token = localStorage.getItem("token");
     checkToken(token);
-    getData(token);
     initButtons();
+    await updateMaintenanceReports(token);
+    await updateMaintenanceObjects(token);
+    const year = document.getElementById("maintenance-report").value;
+    await updateMaintenanceReportEntryTable(token, year);
 }
 
 function initButtons() {
@@ -23,14 +26,17 @@ function initButtons() {
     const addButton = document.getElementById("addButton");
     addButton.addEventListener("click", () => initAddModal());
 
-    const addObjectButton = document.getElementById("addObjectButton");
-    addObjectButton.addEventListener("click", () => initAddObjectModal());
-
     const saveButton = document.getElementById("saveButton");
     saveButton.addEventListener("click", (event) => saveData(event));
 
     const saveObjectButton = document.getElementById("saveObjectButton");
     saveObjectButton.addEventListener("click", (event) => saveObject(event));
+
+    const editReportsButton = document.getElementById("editReportsButton");
+    editReportsButton.addEventListener("click", () => initEditReportsModal());
+
+    const editObjectsButton = document.getElementById("editObjectsButton");
+    editObjectsButton.addEventListener("click", () => initEditObjectsModal());
 
     const dropdown = document.getElementById("maintenance-report");
     dropdown.addEventListener("change", (event) => changeMaintenanceReport(event));
@@ -61,11 +67,92 @@ function initAddModal() {
     document.getElementById("date").value = today;
 }
 
-function initAddObjectModal() {
+async function initEditObjectsModal() {
     // update modal title
     document.getElementById("add-maintenance-object-modal-label").textContent = "Wartungsobjekt hinzufügen";
     // clear form
     document.getElementById("objekt").value = "";
+    const token = localStorage.getItem("token");
+    checkToken(token);
+
+    const data = await getMaintenanceObjects(token);
+    // add to table sorted by name with delete icon
+    const tableBody = document.getElementById("edit-objects-table").querySelector("tbody");
+    tableBody.innerHTML = "";
+    data.sort((a, b) => a.name.localeCompare(b.name));
+    data.forEach(maintenanceObject => {
+        const newRow = document.createElement("tr");
+
+        const cellName = document.createElement("td");
+        const cellAction = document.createElement("td");
+        const cellId = document.createElement("td");
+
+        const deleteIcon = document.createElement("span");
+        deleteIcon.classList.add("delete-icon");
+        deleteIcon.innerHTML = "&#128465;"
+        deleteIcon.style.cursor = "pointer";
+        deleteIcon.addEventListener("click", () => deleteMaintenanceObject(deleteIcon));
+
+        cellName.textContent = maintenanceObject.name;
+        cellAction.appendChild(deleteIcon);
+        cellId.textContent = maintenanceObject.id;
+
+        // make cellid invisible
+        cellId.style.display = "none";
+
+        newRow.appendChild(cellName);
+        newRow.appendChild(cellAction);
+        newRow.appendChild(cellId);
+
+        tableBody.appendChild(newRow);
+    });
+}
+
+async function initEditReportsModal() {
+    const token = localStorage.getItem("token");
+    checkToken(token);
+
+    const data = await getMaintenanceReports(token);
+    // add to table sorted by year with delete icon
+    const tableBody = document.getElementById("edit-reports-table").querySelector("tbody");
+    tableBody.innerHTML = "";
+    if (!data || data.length === 0) {
+        // show message that no maintenance reports exist
+        const newRow = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 3;
+        cell.textContent = "Keine Wartungsberichte vorhanden";
+        newRow.appendChild(cell);
+        tableBody.appendChild(newRow);
+        return;
+    }
+    data.sort((a, b) => a.year - b.year);
+    data.forEach(maintenanceReport => {
+        const newRow = document.createElement("tr");
+
+        const cellYear = document.createElement("td");
+        const cellAction = document.createElement("td");
+        const cellId = document.createElement("td");
+
+        const deleteIcon = document.createElement("span");
+        deleteIcon.classList.add("delete-icon");
+        deleteIcon.innerHTML = "&#128465;"
+        deleteIcon.style.cursor = "pointer";
+        deleteIcon.addEventListener("click", () => deleteMaintenanceReport(deleteIcon));
+
+        cellYear.textContent = maintenanceReport.year;
+        cellAction.appendChild(deleteIcon);
+        cellId.textContent = maintenanceReport.id;
+
+        // make cellid invisible
+        cellId.style.display = "none";
+
+        newRow.appendChild(cellYear);
+        newRow.appendChild(cellAction);
+        newRow.appendChild(cellId);
+
+        tableBody.appendChild(newRow);
+    });
 }
 
 function logoff(event) {
@@ -74,152 +161,198 @@ function logoff(event) {
     window.location.href = "/index.html";
 }
 
-function getData(token) {
-    getMaintenanceReportCurrentYear(token);
-    getMaintenanceReports(token);
-    getMaintenanceObjects(token);
-}
-
-function changeMaintenanceReport(event) {
+async function changeMaintenanceReport(event) {
     event.preventDefault();
     const year = event.target.value;
     const token = localStorage.getItem("token");
     checkToken(token);
+    await updateMaintenanceReportEntryTable(token, year);
+}
+
+async function updateMaintenanceReportEntryTable(token, year) {
     // clear table
     const tableBody = document.querySelector(".table tbody");
     tableBody.innerHTML = "";
     // get data for selected year
-    getMaintenanceReportEntriesByYear(token, year);
+    const entries = await getMaintenanceReportEntriesByYear(token, year);
+    if (!entries || entries.length === 0) {
+        // show message that no entries exist
+        const newRow = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 5;
+        cell.textContent = "Keine Einträge vorhanden";
+        newRow.appendChild(cell);
+        tableBody.appendChild(newRow);
+        return;
+    }
+    entries.forEach(maintenanceReportEntry => {
+        addRow(maintenanceReportEntry);
+    });
+    // update dropdown
+    const dropdown = document.getElementById("maintenance-report");
+    dropdown.value = year;
 }
 
-function getMaintenanceReportCurrentYear(token) {
-    const year = new Date().getFullYear();
-    fetch(`/api/maintenance-report/?year=${year}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    }).then(response => {
-        if (!response.ok) {
-            const year = new Date().getFullYear();
-            createMaintenanceReport(token, year);
-        }
-        return response.json();
-    }).then(data => {
-        console.log(data);
-        data.entries.forEach(maintenanceReportEntry => {
-            addRow(maintenanceReportEntry);
+async function getMaintenanceReport(token, year) {
+    try {
+        const response = await fetch(`/api/maintenance-report/?year=${year}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
         });
-    }).catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function createMaintenanceReport(token, year) {
-    fetch("/api/maintenance-report", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            year: year
-        })
-    }).then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-    }).then(data => {
+        const data = await response.json();
         console.log(data);
-    }).catch(error => {
-        console.error('Error:', error);
-    });
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Daten:", error);
+    }
 }
 
-function getMaintenanceReports(token) {
-    fetch("/api/maintenance-report", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    }).then(response => {
+async function createMaintenanceReport(token, year) {
+    try {
+        const response = await fetch("/api/maintenance-report", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                year: year
+            })
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-    }).then(data => {
+        const data = await response.json();
         console.log(data);
-        // add to dropdown sorted by year
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Speichern der Daten:", error);
+    }
+}
+
+async function getMaintenanceReports(token) {
+    try {
+        const response = await fetch("/api/maintenance-report", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Daten:", error);
+    }
+}
+
+async function updateMaintenanceReports(token) {
+
+    const data = await getMaintenanceReports(token);
+    if (!data || data.length === 0) {
+        // show message that no maintenance reports exist
         const dropdown = document.getElementById("maintenance-report");
-        data.sort((a, b) => a.year - b.year);
-        data.forEach(maintenanceReport => {
-            const option = document.createElement("option");
-            option.value = maintenanceReport.year;
-            option.textContent = maintenanceReport.year;
-            dropdown.appendChild(option);
-        });
-        // select current year
-        const year = new Date().getFullYear();
-        dropdown.value = year;
+        dropdown.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "Keine Wartungsberichte vorhanden";
+        dropdown.appendChild(option);
+        return;
+    }
 
-        // save id of each maintenance report
-        data.forEach(maintenanceReport => {
-            maintenanceReports[maintenanceReport.year] = maintenanceReport.id;
-        });
-    }).catch(error => {
-        console.error('Error:', error);
+    // clear dropdown
+    const dropdown = document.getElementById("maintenance-report");
+    dropdown.innerHTML = "";
+
+    // clear global maintenanceReports
+    Object.keys(maintenanceReports).forEach(key => {
+        delete maintenanceReports[key];
     });
+
+    // add to dropdown sorted by year
+    data.sort((a, b) => a.year - b.year);
+    data.forEach(maintenanceReport => {
+        const option = document.createElement("option");
+        option.value = maintenanceReport.year;
+        option.textContent = maintenanceReport.year;
+        dropdown.appendChild(option);
+    });
+
+    // save id of each maintenance report
+    data.forEach(maintenanceReport => {
+        maintenanceReports[maintenanceReport.year] = maintenanceReport.id;
+    });
+
+    // set selected year to current year if exists
+    const currentYear = new Date().getFullYear();
+    if (maintenanceReports[currentYear]) {
+        dropdown.value = currentYear;
+    } else {
+        // set selected year to first year
+        dropdown.value = data[0].year;
+    }
 }
 
-function getMaintenanceReportEntriesByYear(token, year) {
-    fetch(`/api/maintenance-report/?year=${year}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    }).then(response => {
+async function updateMaintenanceObjects(token) {
+    const data = await getMaintenanceObjects(token);
+    addMaintenanceObjectsToDropdown(data);
+    // save id of each maintenance object
+    data.forEach(maintenanceObject => {
+        maintenanceObjects[maintenanceObject.name] = maintenanceObject.id;
+    });
+
+    initEditObjectsModal();
+}
+
+async function getMaintenanceReportEntriesByYear(token, year) {
+    try {
+        const response = await fetch(`/api/maintenance-report/?year=${year}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-    }).then(data => {
+        const data = await response.json();
         console.log(data);
-        // add data entries to table
-        data.entries.forEach(maintenanceReportEntry => {
-            addRow(maintenanceReportEntry);
-        });
-    }).catch(error => {
-        console.error('Error:', error);
-    });
+        return data.entries;
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Daten:", error);
+    }
 }
 
-function getMaintenanceObjects(token) {
-    fetch("/api/maintenance-object", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    }).then(response => {
+async function getMaintenanceObjects(token) {
+    try {
+        const response = await fetch("/api/maintenance-object", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-    }).then(data => {
+        const data = await response.json();
         console.log(data);
-        addMaintenanceObjectsToDropdown(data);
-        // save id of each maintenance object
-        data.forEach(maintenanceObject => {
-            maintenanceObjects[maintenanceObject.name] = maintenanceObject.id;
-        });
-
-    }).catch(error => {
-        console.error('Error:', error);
-    });
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Speichern der Daten:", error);
+    }
 }
 
 function addMaintenanceObjectsToDropdown(data) {
@@ -236,7 +369,7 @@ function addMaintenanceObjectsToDropdown(data) {
     });
 }
 
-function saveData(event) {
+async function saveData(event) {
     event.preventDefault();
     // Holen der Eingabewerte aus dem Formular
     const maintenanceObject = document.getElementById("maintenance-object").value;
@@ -258,11 +391,13 @@ function saveData(event) {
     const maintenanceObjectId = maintenanceObjects[maintenanceObject];
     // get maintenance report id
     const year = dateParts[0];
-    const maintenanceReportId = maintenanceReports[year];
+    let maintenanceReportId = maintenanceReports[year];
     const token = localStorage.getItem("token");
     if (!maintenanceReportId) {
         checkToken(token);
-        createMaintenanceReport(token, Number(year));
+        await createMaintenanceReport(token, Number(year));
+        await updateMaintenanceReports(token);
+        maintenanceReportId = maintenanceReports[year];
     }
 
     const maintenanceReportEntry = {
@@ -275,62 +410,61 @@ function saveData(event) {
     // Schließen des Modals
     $('#add-maintenance-modal').modal('hide');
 
-   checkToken(token);
+    checkToken(token);
     if (edit) {
         updateMaintenanceReportEntry(token, maintenanceReportEntry);
         return;
     }
-    createMaintenanceReportEntry(token, maintenanceReportEntry);
+
+    await createMaintenanceReportEntry(token, maintenanceReportEntry);
+    await updateMaintenanceReportEntryTable(token, year);
 }
 
-function createMaintenanceReportEntry(token, maintenanceReportEntry) {
-    fetch("/api/maintenance-report-entry", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(maintenanceReportEntry),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Daten erfolgreich gespeichert:", data);
-            const dropdown = document.getElementById("maintenance-report");
-            const dateParts = maintenanceReportEntry.date.split("-");
-            const year = `${dateParts[2]}`;
-            dropdown.value = year;
-            // clear table            
-            const tableBody = document.querySelector(".table tbody");
-            tableBody.innerHTML = "";
-            // get data for selected year
-            getMaintenanceReportEntriesByYear(token, year);            
-        })
-        .catch((error) => {
-            console.error("Fehler beim Speichern der Daten:", error);
+async function createMaintenanceReportEntry(token, maintenanceReportEntry) {
+    try {
+        const response = await fetch("/api/maintenance-report-entry", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(maintenanceReportEntry),
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Speichern der Daten:", error);
+    }
 }
 
-function updateMaintenanceReportEntry(token, maintenanceReportEntry) {
+async function updateMaintenanceReportEntry(token, maintenanceReportEntry) {
     maintenanceReportEntry.id = editId;
-    fetch(`/api/maintenance-report-entry/${editId}`, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(maintenanceReportEntry),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Daten erfolgreich gespeichert:", data);
-            updateTable(editId, data);
-        })
-        .catch((error) => {
-            console.error("Fehler beim Speichern der Daten:", error);
-        }).finally(() => {
-            edit = false;
-            editId = null;
+    try {
+        const response = await fetch(`/api/maintenance-report-entry/${editId}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(maintenanceReportEntry),
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        updateTable(editId, data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Speichern der Daten:", error);
+    } finally {
+        edit = false;
+        editId = null;
+    }
 }
 
 function updateTable(id, data) {
@@ -346,7 +480,7 @@ function updateTable(id, data) {
     }
 }
 
-function saveObject(event) {
+async function saveObject(event) {
     event.preventDefault();
     // Holen der Eingabewerte aus dem Formular
     const maintenanceObject = document.getElementById("objekt").value;
@@ -361,31 +495,31 @@ function saveObject(event) {
         name: maintenanceObject,
     };
 
-    // Schließen des Modals
-    $('#add-maintenance-object-modal').modal('hide');
-
     const token = localStorage.getItem("token");
     checkToken(token);
-    createMaintenanceObjectEntry(token, maintenanceObjectEntry);
+    await createMaintenanceObjectEntry(token, maintenanceObjectEntry);
+    await updateMaintenanceObjects(token);
 }
 
-function createMaintenanceObjectEntry(token, maintenanceObjectEntry) {
-    fetch("/api/maintenance-object", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(maintenanceObjectEntry),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Daten erfolgreich gespeichert:", data);
-            getMaintenanceObjects(token);
-        })
-        .catch((error) => {
-            console.error("Fehler beim Speichern der Daten:", error);
+async function createMaintenanceObjectEntry(token, maintenanceObjectEntry) {
+    try {
+        const response = await fetch("/api/maintenance-object", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(maintenanceObjectEntry),
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Speichern der Daten:", error);
+    }
 }
 
 function addRow(data) {
@@ -451,31 +585,139 @@ function editRow(icon) {
     $('#add-maintenance-modal').modal('show');
 }
 
-function deleteRow(icon) {
+async function deleteRow(icon) {
     // show confirmation dialog
     const result = confirm("Wollen Sie den Eintrag wirklich löschen?");
     if (!result) {
         return;
     }
     const row = icon.parentElement.parentElement;
-    row.remove();
 
     const token = localStorage.getItem("token");
     checkToken(token);
 
     // remove from database
     const id = row.children[3].textContent;
-    fetch(`/api/maintenance-report-entry/${id}`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Daten erfolgreich gelöscht:", data);
-        })
-        .catch((error) => {
-            console.error("Fehler beim Löschen der Daten:", error);
+    const success = await deleteMaintenanceReportEntryFromDatabase(token, id);
+    if (!success) {
+        alert("Der Eintrag konnte nicht gelöscht werden.");
+        return;
+    }
+    row.remove();
+    updateMaintenanceReportEntryTable(token, document.getElementById("maintenance-report").value);
+}
+
+async function deleteMaintenanceReportEntryFromDatabase(token, id) {
+    try {
+        const response = await fetch(`/api/maintenance-report-entry/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Löschen der Daten:", error);
+        return null;
+    }
+}
+
+async function deleteMaintenanceReport(deleteIcon) {
+    // show confirmation dialog
+    const result = confirm("Wollen Sie den Eintrag wirklich löschen?");
+    if (!result) {
+        return;
+    }
+
+    const row = deleteIcon.parentElement.parentElement;
+    row.remove();
+
+    // remove from database
+    const year = row.children[0].textContent;
+    const id = maintenanceReports[year];
+
+    if (!id) {
+        alert("Kein Eintrag für das Jahr " + year + " gefunden.");
+        return;
+    }
+    const token = localStorage.getItem("token");
+    checkToken(token);
+    await deleteMaintenanceReportFromDatabase(token, id);
+    await updateMaintenanceReports(token);
+    const yearNew = document.getElementById("maintenance-report").value;
+    await updateMaintenanceReportEntryTable(token, yearNew);
+}
+
+async function deleteMaintenanceReportFromDatabase(token, id) {
+    try {
+        const response = await fetch(`/api/maintenance-report/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Löschen der Daten:", error);
+    }
+}
+
+async function deleteMaintenanceObject(deleteIcon) {
+    // show confirmation dialog
+    const result = confirm("Wollen Sie den Eintrag wirklich löschen?");
+    if (!result) {
+        return;
+    }
+
+    const row = deleteIcon.parentElement.parentElement;
+
+    // remove from database
+    const name = row.children[0].textContent;
+    const id = maintenanceObjects[name];
+
+    if (!id) {
+        alert("Kein Eintrag für das Objekt " + name + " gefunden.");
+        return;
+    }
+    const token = localStorage.getItem("token");
+    checkToken(token);
+    const success = await deleteMaintenanceObjectFromDatabase(token, id);
+    if (!success) {
+        alert("Das Objekt " + name + " konnte nicht gelöscht werden. Möglicherweise wird es noch verwendet.");
+        return;
+    }
+    row.remove();
+
+    await updateMaintenanceObjects(token);
+}
+
+async function deleteMaintenanceObjectFromDatabase(token, id) {
+    try {
+        const response = await fetch(`/api/maintenance-object/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }
+    catch (error) {
+        console.error("Fehler beim Löschen der Daten:", error);
+        return null;
+    }
 }
