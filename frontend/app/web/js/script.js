@@ -703,6 +703,12 @@ function editRow(icon) {
     document.getElementById("last-name").value = maintainer.split(" ")[1];
     document.getElementById("date").value = dateInput;
 
+    // set min and max date to year of date
+    const minDate = `${dateParts[2]}-01-01`;
+    const maxDate = `${dateParts[2]}-12-31`;
+    document.getElementById("date").setAttribute("min", minDate);
+    document.getElementById("date").setAttribute("max", maxDate);
+
     // update modal title
     document.getElementById("add-maintenance-modal-label").textContent = "Wartung bearbeiten";
 
