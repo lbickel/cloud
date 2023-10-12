@@ -90,10 +90,7 @@ async function initEditObjectsModal() {
         const cellAction = document.createElement("td");
         const cellId = document.createElement("td");
 
-        const deleteIcon = document.createElement("span");
-        deleteIcon.classList.add("delete-icon");
-        deleteIcon.innerHTML = "&#128465;"
-        deleteIcon.style.cursor = "pointer";
+        const deleteIcon = createDeleteIcon("Wartungsobjekt löschen");
         deleteIcon.addEventListener("click", () => deleteMaintenanceObject(deleteIcon));
 
         cellName.textContent = maintenanceObject.name;
@@ -137,13 +134,14 @@ async function initEditReportsModal() {
         const cellAction = document.createElement("td");
         const cellId = document.createElement("td");
 
-        const deleteIcon = document.createElement("span");
-        deleteIcon.classList.add("delete-icon");
-        deleteIcon.innerHTML = "&#128465;"
-        deleteIcon.style.cursor = "pointer";
+        const watchIcon = createWatchIcon("Wartungsbericht ansehen");
+        watchIcon.addEventListener("click", () => showReport(token, maintenanceReport.year));
+
+        const deleteIcon = createDeleteIcon("Wartungsbericht löschen");
         deleteIcon.addEventListener("click", () => deleteMaintenanceReport(deleteIcon));
 
         cellYear.textContent = maintenanceReport.year;
+        cellAction.appendChild(watchIcon);
         cellAction.appendChild(deleteIcon);
         cellId.textContent = maintenanceReport.id;
 
@@ -157,6 +155,58 @@ async function initEditReportsModal() {
         tableBody.appendChild(newRow);
     });
 }
+
+function createWatchIcon(tooltip) {
+    const watchIcon = document.createElement("span");
+    watchIcon.classList.add("watch-icon");
+    watchIcon.innerHTML = "&#128065;"
+    watchIcon.style.cursor = "pointer";
+    // show tooltip on hover
+    watchIcon.setAttribute("data-toggle", "tooltip");
+    watchIcon.setAttribute("data-placement", "top");
+    watchIcon.setAttribute("title", tooltip);
+
+    return watchIcon;
+}
+
+function createEditIcon(tooltip) {
+    const editIcon = document.createElement("span");
+    editIcon.classList.add("edit-icon");
+    editIcon.innerHTML = "&#9998;"
+    editIcon.style.cursor = "pointer";
+    // show tooltip on hover
+    editIcon.setAttribute("data-toggle", "tooltip");
+    editIcon.setAttribute("data-placement", "top");
+    editIcon.setAttribute("title", tooltip);
+
+    return editIcon;
+}
+
+function createDeleteIcon(tooltip) {
+    const deleteIcon = document.createElement("span");
+    deleteIcon.classList.add("delete-icon");
+    deleteIcon.innerHTML = "&#128465;"
+    deleteIcon.style.cursor = "pointer";
+    // show tooltip on hover
+    deleteIcon.setAttribute("data-toggle", "tooltip");
+    deleteIcon.setAttribute("data-placement", "top");
+    deleteIcon.setAttribute("title", tooltip);
+
+    return deleteIcon;
+}
+
+
+function showReport(token, year) {
+    checkToken(token);
+    // close modal
+    $('#edit-maintenance-reports-modal').modal('hide');
+    // show report
+    updateMaintenanceReportEntryTable(token, year);
+    // update dropdown
+    const dropdown = document.getElementById("maintenance-report");
+    dropdown.value = year;
+}
+
 
 function logoff(event) {
     event.preventDefault();
@@ -261,8 +311,11 @@ async function getMaintenanceReports(token) {
 
 async function updateMaintenanceReports(token) {
 
-    // clear dropdown
+    // read year from dropdown
     const dropdown = document.getElementById("maintenance-report");
+    const year = dropdown.value;
+
+    // clear dropdown
     dropdown.innerHTML = "";
 
     // clear global maintenanceReports
@@ -296,10 +349,9 @@ async function updateMaintenanceReports(token) {
         maintenanceReports[maintenanceReport.year] = maintenanceReport.id;
     });
 
-    // set selected year to current year if exists
-    const currentYear = new Date().getFullYear();
-    if (maintenanceReports[currentYear]) {
-        dropdown.value = currentYear;
+    // set selected year to previous year
+    if (year) {
+        dropdown.value = year;
     } else {
         // set selected year to first year
         dropdown.value = data[0].year;
@@ -551,6 +603,7 @@ async function saveReport(event) {
     const token = localStorage.getItem("token");
     checkToken(token);
     await createMaintenanceReport(token, Number(year));
+    await updateMaintenanceReports(token);
     await updateMaintenanceReportList(token);
 }
 
@@ -575,16 +628,10 @@ function addRow(data) {
     const cellId = document.createElement("td");
     const cellAction = document.createElement("td");
 
-    const deleteIcon = document.createElement("span");
-    deleteIcon.classList.add("delete-icon");
-    deleteIcon.innerHTML = "&#128465;"
-    deleteIcon.style.cursor = "pointer";
+    const deleteIcon = createDeleteIcon("Eintrag löschen");
     deleteIcon.addEventListener("click", () => deleteRow(deleteIcon));
 
-    const editIcon = document.createElement("span");
-    editIcon.classList.add("edit-icon");
-    editIcon.innerHTML = "&#9998;"
-    editIcon.style.cursor = "pointer";
+    const editIcon = createEditIcon("Eintrag bearbeiten");
     editIcon.addEventListener("click", () => editRow(editIcon));
 
     cellDevice.textContent = data.maintenanceObject;
