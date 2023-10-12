@@ -34,6 +34,11 @@ export default class Authentication extends ApiRoutesBase {
 
         });
 
+        // verify token
+        this.router.get("/auth/verify", AuthorizationMiddleware.authenticateToken, (req, res) => {
+            res.json({ message: "token verified" });          
+        });
+
     }
 
 

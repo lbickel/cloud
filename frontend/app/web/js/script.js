@@ -21,7 +21,7 @@ async function init() {
 
 function initButtons() {
     const logoffButton = document.getElementById("logoffButton");
-    logoffButton.addEventListener("click", (event) => logoff(event));
+    logoffButton.addEventListener("click", () => logoff());
 
     const addButton = document.getElementById("addButton");
     addButton.addEventListener("click", () => initAddModal());
@@ -49,14 +49,50 @@ function showLoginForm() {
     window.location.href = "/";
 }
 
-function checkToken(token) {
+async function checkToken(token) {
     if (!token) {
-        alert("Bitte loggen Sie sich ein.");
         logoff();
         return false;
     }
+
+    const expired = await tokenExpired(token);
+
+    if (expired) {
+        // show modal for session expired
+        $('#session-expired-modal').modal('show');
+        // logout after 5 seconds
+        setTimeout(() => {
+            logoff();
+        }, 5000);
+        return false;
+    }
+
     return true;
 }
+
+async function tokenExpired(token) {
+    try {
+        const response = await fetch("/api/auth/verify", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        if (data.error) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error("Fehler beim Überprüfen des Tokens:", error);
+        return true;
+    }
+}
+
 
 function initAddModal() {
     // update modal title
@@ -208,8 +244,7 @@ function showReport(token, year) {
 }
 
 
-function logoff(event) {
-    event.preventDefault();
+function logoff() {
     localStorage.removeItem("token");
     window.location.href = "/index.html";
 }
