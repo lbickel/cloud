@@ -9,67 +9,49 @@
     <script src="js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/styles/maintenance_style.css">
 </head>
 
 <body>
     <div class="container mt-5">
         <h1 class="h3 mb-3 font-weight-bold">Wartungsliste</h1>
-        <div class="row mb-3">
+        <div class="row-mb-3">
+            <div class="col text-left">
+                <select class="form-control" id="maintenance-report">
+                    <!-- Hier kommen die Wartungsberichte hin -->
+                </select>
+            </div>
             <div class="col text-right">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#wartungHinzufuegenModal">Wartung
-                    hinzufügen</button>
-                <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
+                    <button class="btn btn-primary" id="addButton" data-toggle="modal" data-target="#add-maintenance-modal">Wartung hinzufügen</button>
+                    <button class="btn btn-primary" id="editObjectsButton" data-toggle="modal" data-target="#add-maintenance-object-modal">Wartungsobjekt verwalten</button>
+                    <button class="btn btn-primary" id="editReportsButton" data-toggle="modal" data-target="#edit-maintenance-reports-modal">Wartungsberichte verwalten</button>
+                    <button class="btn btn-secondary" id="logoffButton">Abmelden</button>
             </div>
         </div>
         <table class="table table-bordered table-hover">
             <thead class="table-primary">
                 <tr>
                     <th>Wartungsgegenstand</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
+                    <th>Name</th>
                     <th>Datum</th>
-                    <th></th>
+                    <th>ID</th>
+                    <th>Aktion</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ventil 1</td>
-                    <td>Linda</td>
-                    <td>Bickel</td>
-                    <td>25.09.2023</td>
-                    <td>
-                        <span class="delete-icon" onclick="deleteRow(this)">&#128465;</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Pumpe 1</td>
-                    <td>Laura</td>
-                    <td>Bernert</td>
-                    <td>24.04.2023</td>
-                    <td>
-                        <span class="delete-icon" onclick="deleteRow(this)">&#128465;</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ventil 5</td>
-                    <td>Max</td>
-                    <td>Mustermann</td>
-                    <td>12.03.2023</td>
-                    <td>
-                        <span class="delete-icon" onclick="deleteRow(this)">&#128465;</span>
-                    </td>
-                </tr>
+                <!-- Hier kommen die Wartungen hin -->
+                <td colspan="5">Keine Einträge vorhanden</td>
             </tbody>
         </table>
-    </div>
+    </div>    
 
     <!-- Modal für das Hinzufügen einer Wartung -->
-    <div class="modal fade" id="wartungHinzufuegenModal" tabindex="-1" role="dialog"
-        aria-labelledby="wartungHinzufuegenModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-maintenance-modal" tabindex="-1" role="dialog"
+        aria-labelledby="add-maintenance-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="wartungHinzufuegenModalLabel">Wartung hinzufügen</h5>
+                    <h5 class="modal-title" id="add-maintenance-modal-label">Wartung hinzufügen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -78,20 +60,23 @@
                     <!-- Hier kommen die Eingabefelder für die Wartung hin -->
                     <form id="maintenance-form">
                         <div class="form-group">
-                            <label for="wartungsgegenstand">Wartungsgegenstand</label>
-                            <input type="text" class="form-control" id="wartungsgegenstand">
+                            <label for="maintenance-object">Wartungsgegenstand</label>
+                            <!-- Dropdown Select -->
+                            <select class="form-control" id="maintenance-object">
+                                <!-- Hier kommen die Wartungsgegenstände hin -->
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="vorname">Vorname</label>
-                            <input type="text" class="form-control" id="vorname">
+                            <label for="first-name">Vorname</label>
+                            <input type="text" class="form-control" id="first-name">
                         </div>
                         <div class="form-group">
-                            <label for="nachname">Nachname</label>
-                            <input type="text" class="form-control" id="nachname">
+                            <label for="last-name">Nachname</label>
+                            <input type="text" class="form-control" id="last-name">
                         </div>
                         <div class="form-group">
-                            <label for="datum">Datum</label>
-                            <input type="date" class="form-control" id="datum">
+                            <label for="date">Datum</label>
+                            <input type="date" class="form-control" id="date">
                         </div>
                     </form>
                 </div>
@@ -102,6 +87,103 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal für das Verwalten eines Wartungsobjekts -->
+    <div class="modal fade" id="add-maintenance-object-modal" tabindex="-1" role="dialog"
+        aria-labelledby="add-maintenance-object-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-maintenance-object-modal-label">Wartungsobjekte verwalten</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Create table for maintenance objects with delete icon for every report -->
+                    <table class="table table-bordered table-hover" id="edit-objects-table">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Wartungsobjekt</th>
+                                <th>Aktion</th>
+                                <th style="display: none;">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Hier kommen die Wartungsobjekte hin -->
+                        </tbody>
+                    </table>
+                    <!-- Hier kommen die Eingabefelder für das Wartungsobjekt hin -->
+                    <form id="maintenance-form">
+                        <div class="form-group">
+                            <label for="objekt">Wartungsobjekt hinzufügen</label>
+                            <input type="text" class="form-control" id="objekt">
+                            <button type="button" class="btn btn-primary" id="saveObjectButton">Hinzufügen</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal für das Verwalten von Wartungsberichten -->
+    <div class="modal fade" id="edit-maintenance-reports-modal" tabindex="-1" role="dialog"
+        aria-labelledby="edit-maintenance-reports-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-maintenance-reports-modal-label">Wartungsberichte verwalten</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Create table for maintenance reports with delete icon for every report -->
+                    <table class="table table-bordered table-hover" id="edit-reports-table">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Wartungsbericht</th>
+                                <th>Aktion</th>
+                                <th style="display: none;">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Hier kommen die Wartungsberichte hin -->
+                        </tbody>
+                    </table>
+
+                    <!-- Feld für das Hinzufügen eines Wartungsberichts -->
+                    <div class="form-group">
+                        <label for="add-maintenance-report">Wartungsbericht hinzufügen</label>
+                        <input type="number" class="form-control" id="add-maintenance-report" min="1900" max="2099" step="1" value="2023" />
+                        <button type="button" class="btn btn-primary" id="add-maintenance-report-button">Hinzufügen</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal wenn die Session abgelaufen ist -->
+    <div class="modal fade" id="session-expired-modal" tabindex="-1" role="dialog"
+        aria-labelledby="session-expired-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Ihre Session ist abgelaufen!</h4>
+                    <p>Bitte melden Sie sich erneut an.</p>
+                    <hr>
+                    <p class="mb-0">Sie werden in 5 Sekunden automatisch abgemeldet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
