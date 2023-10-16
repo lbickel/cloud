@@ -19,7 +19,7 @@ export default class Authentication extends ApiRoutesBase {
     protected initRoutes(): void {
 
         this.router.post("/auth", (req, res) => {
-            console.log(req.body)
+            // console.log(req.body)
             const { username, password } = req.body;
 
               // Find the user in the mock database (you should replace this with your own user validation logic)

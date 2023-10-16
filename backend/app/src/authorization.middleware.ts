@@ -55,7 +55,7 @@ export class AuthorizationMiddleware {
     public static authenticateToken(req: Request, res: Response, next: NextFunction) {
         const authHeader = req.headers.authorization;
 
-        console.log("auth header "+authHeader)
+        // console.log("auth header "+authHeader)
 
         // Check if the header exists and starts with 'Bearer '
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -66,7 +66,7 @@ export class AuthorizationMiddleware {
         if (token == null) return res.sendStatus(401)
 
         jwt.verify(token, AuthorizationMiddleware.ACCESS_TOKEN_SECRET, (err, payload:any) => {
-            console.log(err)
+            // console.log(err)
             if (err) {
                 return res.sendStatus(403);
             }
@@ -89,7 +89,7 @@ export class AuthorizationMiddleware {
 
         const tenant = jwtPayload.tenant;
 
-        console.log("tenant "+tenant)
+        // console.log("tenant "+tenant)
 
         res.locals.tenant = tenant
 

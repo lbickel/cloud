@@ -17,7 +17,7 @@ export class TenantConnectionResolver {
             .then(cachedConnection => {
                 resolve(cachedConnection);
             }).catch(cacheError => {
-                console.log(cacheError);
+                // console.log(cacheError);
                 this.createTenantConnection(tenantID)
                 .then(newConnection => {
                     this._connectionCache.set(tenantID, newConnection);

@@ -11,17 +11,21 @@ import ApiMaintenanceReport from "../routes/maintenance-report.routes";
 import Authentication from "../routes/auth.routes";
 import ApiMaintenanceReportEntry from "../routes/maintenance-report-entry.routes";
 import { TenantConnectionResolver } from "../prisma/tenant/connector.tenant.prisma";
+import { v4 } from "uuid";
 
 
 const register = new prom.Registry()
 prom.collectDefaultMetrics({ register })
-
+const uuid = v4();
 
 const app = express();
 
 app.use(express.json());
 app.use(compression());
-app.use(express.static('../../frontend/web'))
+app.use((req, res, next) => {
+  console.log(`Request ${req.url} served by backend: ${uuid}`)
+  next();
+});
 
 
 let _tenantConnectionResolver = container.resolve(TenantConnectionResolver);
