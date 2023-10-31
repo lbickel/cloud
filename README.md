@@ -1,4 +1,6 @@
-# Get Started
+# 1. Dokumentation der Anwendung (Teil von Herrn Pfisterer)
+
+## 1.1 Get Started
 
 ```
 minikube start --cpus=4 --memory=4000 --addons=ingress --mount-string="/run/udev:/run/udev" --mount
@@ -24,13 +26,10 @@ minikube tunnel
 
 Have Fun! :)
 
-
-# Teil 1 (Pfisterer)
-
-## Zielsetzung
+## 1.2 Zielsetzung
 Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Hierzu können die Systeme und Geräte als Wartungsobjekte angelegt werden. Zudem können pro Jahr Berichte erstellt werden, welche durch ihre Jahreszahl identifiziert werden und alle durchgeführten Wartungen beinhalten. Zu jedem jährlichen Bericht kann der Nutzer neue Wartungen hinzufügen. Ziel ist es, die Anwendung möglichst skalierbar zu gestalten. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
 
-## Bestandteile 
+## 1.3 Bestandteile 
 
 - GUI mit Bootstrap: Es gibt eine grafische Benutzeroberfläche, die dazu dient, dem Benutzer die Interaktion mit der Anwendung zu ermöglichen. Mithilfe der GUI kann der Benutzer Wartungsobjekte und Berichte verwalten sowie Wartungen hinzufügen. Für die Umsetzung der Benutzeroberfläche wird das Framework Bootstrap genutzt.
 
@@ -38,7 +37,7 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 - Datenbanken: Neben der grafischen Benutzeroberfläche gibt es mehrere Datenbanken. Die Datenbanken besitzen jeweils die folgenden drei Tabellen: Maintenance Object, Maintenance Report und Maintenance Report Entry. Es wird PostgreSQL als relationales Datenbankmanagementsystem genutzt.
 
-## Architektur
+## 1.4 Architektur
 
 <img src="img/architecture.png" alt="Architektur" width="600"/>
 
@@ -54,13 +53,15 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 <img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="800"/>
 
-## Herausforderungen bei der Umsetzung
+## 1.5 Herausforderungen und Fazit
 
-Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert. Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen.
+Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-# Teil 2 (Sturm)
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. So konnten wir unser Ziel einer möglicht skalierbaren Multi-Tenany-Anwendung verwirklichen.
 
-## Grundlagen Cloud Native Anwendung
+# 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
+
+## 2.1 Grundlagen Cloud Native Anwendung
 
 Eine Cloud Native Anwendung zeichnet sich durch fünf wesentliche architektonische Prinzipien aus:
 - Microservices: Es werden kleine, lose gekoppelte Services entwickelt. Die Services kommunizieren mithilfe von Schnittstellen miteinander.
@@ -71,7 +72,7 @@ Eine Cloud Native Anwendung zeichnet sich durch fünf wesentliche architektonisc
 
 All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cloud Native Anwendung handelt.
 
-## Vorteile aus Realisierung als Cloud Native
+## 2.2 Vorteile aus Realisierung als Cloud Native
 
 - Skalierbarkeit und Ressourcennutzung: Unsere Anwendung kann flexibel auf wachsende Lasten reagieren. Sie kann durch das Hinzufügen von Datenbank-Instanzen sowie Servern für das Frontend horizontal skaliert werden. Auf diese Weise ist eine effiziente Nutzung der Ressourcen möglich.
 
@@ -85,7 +86,7 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 - Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz, automatischer Skalierung und Fehlertoleranzmechanismen kann unsere Anwendungen noch widerstandsfähiger gegenüber Störungen gemacht werden.
 
-## Nachteile aus Realisierung als Cloud Native
+## 2.3 Nachteile aus Realisierung als Cloud Native
 
 - Komplexität der Architektur: Unsere Cloud Native Anwendung weist aufgrund der Verwendung von Docker und Kubernetes eine erhöhte Komplexität der Architektur auf.
 
@@ -97,11 +98,11 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 - Vendor Lock-In: Bei der Nutzung von Cloud-Plattformen und spezifischen Diensten besteht die Gefahr des Vendor Lock-Ins. Das bedeutet, dass es schwierig sein kann, zu einer anderen Cloud-Plattform zu wechseln, wenn die Anwendung stark an die spezifischen Dienste des aktuellen Anbieters gebunden ist.
 
-## Alternative Realisierungsmöglichkeiten mit kritischer Erörterung
+## 2.4 Alternative Realisierungsmöglichkeiten mit kritischer Erörterung
 
 Es wäre auch denkbar, die Anwendung mit einem Backend- und einem Frontend-Server zu bauen und keine Container zu nutzen. Auf diese Weise wäre die Architektur deutlich einfacher gewesen. Das Problem wäre allerdings gewesen, dass die Anwendung nicht skalierbar gewesen wäre. Falls die Anwendung irgendwann von einer Vielzahl an Kunden genutzt wird und die Server Lastspitzen erreichen, ist eine Erweiterung der Ressourcen nicht einfach möglich. Das könnte dazu führen, dass Kunden abspringen und es zu Geldeinbußen aufgrund der fehlenden Skalierbarkeit kommt. Zudem könnte es bei einer fehlenden Containerisierung zu Portabilitätsproblemen kommen. Auch die Wartung und das Einspielen von Updates ist deutlich erschwert.
 
-## Gewährleistung des Datenschutzes und der Datensicherheit
+## 2.5 Gewährleistung des Datenschutzes und der Datensicherheit
 
 Häufig werden in Cloud Native Anwendungen personenbezogene Daten gesammelt und verwendet, die bei einem Cloud-Anbieter im Rechenzentrum abliegen. Der Cloud-Anbieter hat somit physischen Zugriff auf die Server, auf denen die Daten gespeichert sind. Dies kann Bedenken hinsichtlich der Kontrolle über die Daten und der möglichen Offenlegung vertraulicher Informationen aufwerfen.
 
@@ -109,7 +110,9 @@ Es ist wichtig zu verstehen, wie der Cloud-Anbieter mit den gespeicherten Daten 
 
 In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Verwaltung von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
 
-# Autoren
+## 2.6 Fazit
+
+# 3. Autoren
 - Laura Bernert
 - Linda Bickel
 - Sergej Bryan Vizgalov
