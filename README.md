@@ -2,6 +2,8 @@
 
 ## 1.1 Get Started
 
+Folgende Kommandozeilenbefehle müssen ausgeführt werden:
+
 ```
 minikube start --cpus=4 --memory=4000 --addons=ingress --mount-string="/run/udev:/run/udev" --mount
 ```
@@ -23,8 +25,6 @@ skaffold dev
 ```
 minikube tunnel
 ```
-
-Have Fun! :)
 
 ## 1.2 Zielsetzung
 
@@ -118,6 +118,8 @@ Es ist wichtig zu verstehen, wie der Cloud-Anbieter mit den gespeicherten Daten 
 In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Verwaltung von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
 
 ## 2.6 Fazit
+
+Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen, allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachtet. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch je Anwendungsfall separat geprüft werden muss.
 
 # 3. Autoren
 - Laura Bernert
