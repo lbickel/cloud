@@ -27,9 +27,16 @@ minikube tunnel
 Have Fun! :)
 
 ## 1.2 Zielsetzung
-Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Hierzu können die Systeme und Geräte als Wartungsobjekte angelegt werden. Zudem können pro Jahr Berichte erstellt werden, welche durch ihre Jahreszahl identifiziert werden und alle durchgeführten Wartungen beinhalten. Zu jedem jährlichen Bericht kann der Nutzer neue Wartungen hinzufügen. Ziel ist es, die Anwendung möglichst skalierbar zu gestalten. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
 
-## 1.3 Bestandteile 
+Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
+
+Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsam Sicht auf die Daten hat. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches ihre Systeme und Geräte wartet. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Customizierbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
+
+## 1.3 Funktionalität
+
+In unserer Anwendung zur Verwaltung von Wartungen können Systeme und Geräte als Wartungsobjekte angelegt werden. Zudem können pro Jahr Berichte erstellt werden, welche durch ihre Jahreszahl identifiziert werden und alle durchgeführten Wartungen beinhalten. Zu jedem jährlichen Bericht kann der Nutzer neue Wartungen für die angelegten Wartungsobjekte hinzufügen.
+
+## 1.4 Bestandteile 
 
 - GUI mit Bootstrap: Es gibt eine grafische Benutzeroberfläche, die dazu dient, dem Benutzer die Interaktion mit der Anwendung zu ermöglichen. Mithilfe der GUI kann der Benutzer Wartungsobjekte und Berichte verwalten sowie Wartungen hinzufügen. Für die Umsetzung der Benutzeroberfläche wird das Framework Bootstrap genutzt.
 
@@ -37,7 +44,7 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 - Datenbanken: Neben der grafischen Benutzeroberfläche gibt es mehrere Datenbanken. Die Datenbanken besitzen jeweils die folgenden drei Tabellen: Maintenance Object, Maintenance Report und Maintenance Report Entry. Es wird PostgreSQL als relationales Datenbankmanagementsystem genutzt.
 
-## 1.4 Architektur
+## 1.5 Architektur
 
 <img src="img/architecture.png" alt="Architektur" width="600"/>
 
@@ -53,11 +60,11 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 <img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="800"/>
 
-## 1.5 Herausforderungen und Fazit
+## 1.6 Herausforderungen und Fazit
 
 Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. So konnten wir unser Ziel einer möglicht skalierbaren Multi-Tenany-Anwendung verwirklichen.
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. So konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung verwirklichen.
 
 # 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
 
