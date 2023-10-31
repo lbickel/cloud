@@ -40,15 +40,19 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 ## Architektur
 
+  <img src="img/architecture.png" alt="Architektur" width="300"/>
+
 - Docker: Die Containerisierungsplattform Docker wird genutzt, um die Datenbanken innerhalb eines Containers zu starten. Auch die GUI und die Monitoringsysteme werden jeweils in einem gesonderten Container gestartet.
 
 - Kubernetes: Das Orchestrierungstool wird genutzt, um die verschiedenen Container zu verwalten.
 
 - Skaffold: Mit diesem Tool wir der Build- und Bereitstellungsprozess der Container automatisiert.
 
-- Prometheus / Grafana: Das Monitoring- und Alarmierungssystem Prometheus wird genutzt, um die Containerumgebung zu überwachen. Grafana kann gut mit Prometheus integriert werden und wird zur Visualisierung genutzt.
+- Prometheus & Grafana: Das Monitoring- und Alarmierungssystem Prometheus wird genutzt, um die Containerumgebung zu überwachen. Hierzu verfügt die Anwendung über eine Prometheus-Schnittstelle, welche pro Tenant Monitoringdaten zur Verfügung stellt. Grafana kann gut mit Prometheus integriert werden und wird daher zur Visualisierung genutzt. Die nachfolgenden zwei Bilder zeigen zwei beispielhafte Monitoring-Dashboards unserer Anwendung. Das erste Dashboard wurde selbst erstellt, während das zweite Dashboard von folgender Quelle bezogen wurde: https://grafana.com/grafana/dashboards/12230-node-js-dashboard/.
 
-  <img src="img/architecture.png" alt="Architektur" width="300"/>
+<img src="img/grafana_tenants_dashboard.png" alt="Architektur" width="300"/>
+
+<img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="300"/>
 
 ## High-Available Postgres DB
 
