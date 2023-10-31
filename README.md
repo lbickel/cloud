@@ -40,7 +40,7 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 ## Architektur
 
-  <img src="img/architecture.png" alt="Architektur" width="300"/>
+<img src="img/architecture.png" alt="Architektur" width="600"/>
 
 - Docker: Die Containerisierungsplattform Docker wird genutzt, um die Datenbanken innerhalb eines Containers zu starten. Auch die GUI und die Monitoringsysteme werden jeweils in einem gesonderten Container gestartet.
 
@@ -50,13 +50,13 @@ Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Syst
 
 - Prometheus & Grafana: Das Monitoring- und Alarmierungssystem Prometheus wird genutzt, um die Containerumgebung zu überwachen. Hierzu verfügt die Anwendung über eine Prometheus-Schnittstelle, welche pro Tenant Monitoringdaten zur Verfügung stellt. Grafana kann gut mit Prometheus integriert werden und wird daher zur Visualisierung genutzt. Die nachfolgenden zwei Bilder zeigen zwei beispielhafte Monitoring-Dashboards unserer Anwendung. Das erste Dashboard wurde selbst erstellt, während das zweite Dashboard von folgender Quelle bezogen wurde: https://grafana.com/grafana/dashboards/12230-node-js-dashboard/.
 
-<img src="img/grafana_tenants_dashboard.png" alt="Architektur" width="300"/>
+<img src="img/grafana_tenants_dashboard.png" alt="Architektur" width="800"/>
 
-<img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="300"/>
+<img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="800"/>
 
-## High-Available Postgres DB
+## Herausforderungen bei der Umsetzung
 
-Wie bereits geschrieben, gibt es mehrere Datenbanken, da es sich um eine Multi-Tenancy Anwendung handelt. Pro Tenant gibt es eine Datenbank, wie aus dem Architektur Schaubild hervorgeht. Da wir es uns zur Aufgabe gemacht haben, eine möglichst skalierbare Anwendung bereit zu stellen, war die skalierbare Postgres eine Herausforderung. In jeder bereitgestellten Ressource in Kubernetes, müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dieses Ziel zu erreichen, arbeiten wir mit dem Postgres Operator Kubegres (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert. Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen.
+Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert. Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen.
 
 # Teil 2 (Sturm)
 
