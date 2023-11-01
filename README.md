@@ -36,7 +36,7 @@ Zur Anmeldung in der Anwendung können folgende Anmeldeinformationen genutzt wer
 
 Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
 
-Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsam Sicht auf die Daten haben. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches Wartungen von Systemen und Geräten dokumentiert. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Customizierbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
+Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsame Sicht auf die Daten haben. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches Wartungen von Systemen und Geräten dokumentiert. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Anpassbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
 
 ## 1.3 Funktionalität
 
@@ -57,7 +57,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 - Datenbanken: Neben der grafischen Benutzeroberfläche gibt es mehrere Datenbanken. Die Datenbanken besitzen jeweils die folgenden drei Tabellen: Maintenance Object, Maintenance Report und Maintenance Report Entry. Es wird PostgreSQL als relationales Datenbankmanagementsystem genutzt.
 
-- JSON Web Tokens: Zur Authentifizierung der Benutzer und zur Übermittlung von Autorisierungsinformationen werden JSON Web Tokens verwendet. Es handelt sich um eine kompakte und sicher Möglichkeit, um Informationen zwischen zwei Parteien auszutauschen.
+- JSON Web Tokens: Zur Authentifizierung der Benutzer und zur Übermittlung von Autorisierungsinformationen werden JSON Web Tokens verwendet. Es handelt sich um eine kompakte und sichere Möglichkeit, um Informationen zwischen zwei Parteien auszutauschen.
 
 ## 1.5 Architektur
 
@@ -79,7 +79,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken sind auch die Frontend-Server beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung zur Dokumentation von Wartungen verwirklichen.
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken sind auch die Frontend-Server beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenancy-Anwendung zur Dokumentation von Wartungen verwirklichen.
 
 # 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
 
@@ -134,7 +134,7 @@ In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, 
 
 ## 2.6 Fazit
 
-Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen. Allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachtet. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch immer je Anwendungsfall separat geprüft werden muss.
+Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen. Allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachten. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch immer je Anwendungsfall separat geprüft werden muss.
 
 # 3. Autoren
 - Laura Bernert
