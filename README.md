@@ -26,6 +26,8 @@ skaffold dev
 minikube tunnel (in neuem Terminal)
 ```
 
+Die Anwendung kann dann unter "localhost" im Browser aufgerufen werden.
+
 Zur Anmeldung in der Anwendung können folgende Anmeldeinformationen genutzt werden:
 - Benutzername: user1
 - Passwort: password1
@@ -49,9 +51,9 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 ## 1.4 Bestandteile 
 
-- GUI mit Bootstrap: Es gibt eine grafische Benutzeroberfläche, die dazu dient, dem Benutzer die Interaktion mit der Anwendung zu ermöglichen. Mithilfe der GUI kann der Benutzer Wartungsobjekte und Berichte verwalten sowie Wartungen hinzufügen. Für die Umsetzung der Benutzeroberfläche wird das Framework Bootstrap genutzt.
+- GUI mit Bootstrap: Die grafische Benutzeroberfläche dient dazu, dem Benutzer die Interaktion mit der Anwendung zu ermöglichen. Mithilfe der GUI kann der Benutzer Wartungsobjekte und Berichte verwalten sowie Wartungen hinzufügen. Für die Benutzeroberfläche wird das Framework Bootstrap genutzt.
 
-- Express: Zur Entwicklung der Webanwendung wird Express verwendet. Dabei handelt es sich um ein Framework für Node.js, um Server zu erstellen und Routen zu definieren.
+- Express: Für die Webanwendung wird Express verwendet. Dabei handelt es sich um ein Framework für Node.js, um Server zu erstellen und Routen zu definieren.
 
 - Datenbanken: Neben der grafischen Benutzeroberfläche gibt es mehrere Datenbanken. Die Datenbanken besitzen jeweils die folgenden drei Tabellen: Maintenance Object, Maintenance Report und Maintenance Report Entry. Es wird PostgreSQL als relationales Datenbankmanagementsystem genutzt.
 
@@ -77,7 +79,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. So konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung verwirklichen.
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken ist auch die GUI beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung zur Dokumentation von Wartungen verwirklichen.
 
 # 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
 
