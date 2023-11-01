@@ -40,7 +40,7 @@ Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas
 
 Nach der Anmeldung zeigt die Multi-Tenancy-Anwendung alle durchgeführten Wartungen an Geräten oder Systemen. Die Wartungen gehören dabei Berichten an, die jeweils durch ihre Jahreszahl identifiziert werden. Ein solch beispielhafter Wartungsbericht für das Jahr 2023 ist im nachfolgenden Bild zu finden.
 
-<img src="img/application.png" alt="Architektur" width="650"/>
+<img src="img/application.png" alt="Multi-Tenancy-Anwendung" width="650"/>
 
 Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktionen:
 - Wartungsobjekte verwalten: Diese Funktion ermöglicht es, Systeme und Geräte als Wartungsobjekt anzulegen oder bereits bestehende Wartungsobjekte zu löschen.
@@ -59,7 +59,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 ## 1.5 Architektur
 
-<img src="img/architecture.png" alt="Architektur" width="650"/>
+<img src="img/architecture.png" alt="Architektur" width="950"/>
 
 - Docker: Die Containerisierungsplattform Docker wird genutzt, um die Datenbanken innerhalb eines Containers zu starten. Auch die GUI und die Monitoringsysteme werden jeweils in einem gesonderten Container gestartet.
 
@@ -69,9 +69,9 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 - Prometheus & Grafana: Das Monitoring- und Alarmierungssystem Prometheus wird genutzt, um die Containerumgebung zu überwachen. Hierzu verfügt die Anwendung über eine Prometheus-Schnittstelle, welche pro Tenant Monitoringdaten zur Verfügung stellt. Grafana kann gut mit Prometheus integriert werden und wird daher zur Visualisierung genutzt. Die nachfolgenden zwei Bilder zeigen zwei beispielhafte Monitoring-Dashboards unserer Anwendung. Das erste Dashboard wurde selbst erstellt, während das zweite Dashboard von folgender Quelle bezogen wurde: https://grafana.com/grafana/dashboards/12230-node-js-dashboard/.
 
-<img src="img/grafana_tenants_dashboard.png" alt="Architektur" width="1000"/>
+<img src="img/grafana_tenants_dashboard.png" alt="Einfaches Dashboard" width="1000"/>
 
-<img src="img/grafana_nodejs_dashboard.png" alt="Architektur" width="1000"/>
+<img src="img/grafana_nodejs_dashboard.png" alt="Erweitertes Dashboard" width="1000"/>
 
 ## 1.6 Herausforderungen und Fazit
 
