@@ -23,18 +23,29 @@ skaffold dev
 ```
 
 ```
-minikube tunnel
+minikube tunnel (in neuem Terminal)
 ```
+
+Zur Anmeldung in der Anwendung können folgende Anmeldeinformationen genutzt werden:
+- Benutzername: user1
+- Passwort: password1
 
 ## 1.2 Zielsetzung
 
 Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
 
-Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsam Sicht auf die Daten hat. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches ihre Systeme und Geräte wartet. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Customizierbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
+Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsam Sicht auf die Daten haben. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches Wartungen von Systemen und Geräten dokumentiert. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Customizierbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
 
 ## 1.3 Funktionalität
 
-In unserer Anwendung zur Verwaltung von Wartungen können Systeme und Geräte als Wartungsobjekte angelegt werden. Zudem können pro Jahr Berichte erstellt werden, welche durch ihre Jahreszahl identifiziert werden und alle durchgeführten Wartungen beinhalten. Zu jedem jährlichen Bericht kann der Nutzer neue Wartungen für die angelegten Wartungsobjekte hinzufügen.
+Nach der Anmeldung zeigt die Multi-Tenancy-Anwendung alle durchgeführten Wartungen an Geräten oder Systemen. Die Wartungen gehören dabei Berichten an, die jeweils durch ihre Jahreszahl identifiziert werden. Ein solch beispielhafter Wartungsbericht für das Jahr 2023 ist im nachfolgenden Bild zu finden.
+
+<img src="img/application.png" alt="Architektur" width="650"/>
+
+Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktionen:
+- Wartungsobjekte verwalten: Diese Funktion ermöglicht es, Systeme und Geräte als Wartungsobjekt anzulegen oder bereits bestehende Wartungsobjekte zu löschen.
+- Wartungsberichte verwalten: Mithilfe dieser Funktion kann ein neuer Wartungsbericht für ein Jahr angelegt oder bestehende Wartungsberichte vollständig gelöscht werden.
+- Wartungen hinzufügen: Es können neue Wartungen mit Name des Durchführenden und Datum angelegt werden. Zudem können bestehende Wartungen über die Spalte "Aktion" bearbeitet oder gelöscht werden.
 
 ## 1.4 Bestandteile 
 
@@ -43,6 +54,8 @@ In unserer Anwendung zur Verwaltung von Wartungen können Systeme und Geräte al
 - Express: Zur Entwicklung der Webanwendung wird Express verwendet. Dabei handelt es sich um ein Framework für Node.js, um Server zu erstellen und Routen zu definieren.
 
 - Datenbanken: Neben der grafischen Benutzeroberfläche gibt es mehrere Datenbanken. Die Datenbanken besitzen jeweils die folgenden drei Tabellen: Maintenance Object, Maintenance Report und Maintenance Report Entry. Es wird PostgreSQL als relationales Datenbankmanagementsystem genutzt.
+
+- JSON Web Tokens: Zur Authentifizierung der Benutzer und zur Übermittlung von Autorisierungsinformationen werden JSON Web Tokens verwendet. Es handelt sich um eine kompakte und sicher Möglichkeit, um Informationen zwischen zwei Parteien auszutauschen.
 
 ## 1.5 Architektur
 
