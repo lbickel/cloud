@@ -79,7 +79,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken ist auch die GUI beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung zur Dokumentation von Wartungen verwirklichen.
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken sind auch die Frontend-Server beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenany-Anwendung zur Dokumentation von Wartungen verwirklichen.
 
 # 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
 
@@ -106,7 +106,7 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 - Monitoring: Die Monitoring-Tools Prometheus und Grafana ermöglichen, die Überwachung von Protokollen, Metriken und der Performance. Das führt dazu, dass Probleme frühzeitig erkannt und schnell behoben werden können.
 
-- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz, automatischer Skalierung und Fehlertoleranzmechanismen kann unsere Anwendungen noch widerstandsfähiger gegenüber Störungen gemacht werden.
+- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz in Form von Datenbank-Replikationen ist unsere Anwendung besonders widerstandsfähig gegenüber Störungen. Zusätzlich könnte bei Bedarf eine automatische Skalierung und Fehlertoleranzmechanismen genutzt werden.
 
 ## 2.3 Nachteile aus Realisierung als Cloud Native
 
@@ -116,13 +116,13 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 - Abhängigkeit von Netzwerk: Cloud Native Anwendungen sind stark von der Zuverlässigkeit des Netzwerks abhängig. Eine schlechte Netzwerkverbindung oder Netzwerkprobleme können die Leistung und Verfügbarkeit der Anwendung beeinträchtigen.
 
-- Kosten: Obwohl Cloud-native Ansätze eine effiziente Ressourcennutzung ermöglichen, kann es dennoch zu Kostensteigerungen kommen, wenn Ressourcen nicht richtig verwaltet werden. Es ist wichtig, die Kosten im Auge zu behalten und geeignete Kontrollmechanismen zu implementieren.
+- Kosten: Obwohl Cloud Native Ansätze eine effiziente Ressourcennutzung ermöglichen, kann es dennoch zu Kostensteigerungen kommen, wenn Ressourcen nicht richtig verwaltet werden. Es ist wichtig, die Kosten im Auge zu behalten und geeignete Kontrollmechanismen zu implementieren.
 
 - Vendor Lock-In: Bei der Nutzung von Cloud-Plattformen und spezifischen Diensten besteht die Gefahr des Vendor Lock-Ins. Das bedeutet, dass es schwierig sein kann, zu einer anderen Cloud-Plattform zu wechseln, wenn die Anwendung stark an die spezifischen Dienste des aktuellen Anbieters gebunden ist.
 
 ## 2.4 Alternative Realisierungsmöglichkeiten mit kritischer Erörterung
 
-Es wäre auch denkbar, die Anwendung mit einem Backend- und einem Frontend-Server zu bauen und keine Container zu nutzen. Auf diese Weise wäre die Architektur deutlich einfacher gewesen. Das Problem wäre allerdings gewesen, dass die Anwendung nicht skalierbar gewesen wäre. Falls die Anwendung irgendwann von einer Vielzahl an Kunden genutzt wird und die Server Lastspitzen erreichen, ist eine Erweiterung der Ressourcen nicht einfach möglich. Das könnte dazu führen, dass Kunden abspringen und es zu Geldeinbußen aufgrund der fehlenden Skalierbarkeit kommt. Zudem könnte es bei einer fehlenden Containerisierung zu Portabilitätsproblemen kommen. Auch die Wartung und das Einspielen von Updates ist deutlich erschwert.
+Es wäre auch denkbar, die Anwendung mit einem Backend- und einem Frontend-Server zu bauen und keine Container zu nutzen. Auf diese Weise wäre die Architektur deutlich einfacher gewesen. Das Problem wäre allerdings gewesen, dass die Anwendung nicht skalierbar wäre. Falls die Anwendung irgendwann von einer Vielzahl an Kunden genutzt wird und die Server Lastspitzen erreichen, ist eine Erweiterung der Ressourcen nicht einfach möglich. Das könnte dazu führen, dass Kunden abspringen und es zu Geldeinbußen aufgrund der fehlenden Skalierbarkeit kommt. Zudem könnte es bei einer fehlenden Containerisierung zu Portabilitätsproblemen kommen. Auch die Wartung und das Einspielen von Updates ist deutlich erschwert.
 
 ## 2.5 Gewährleistung des Datenschutzes und der Datensicherheit
 
@@ -130,11 +130,11 @@ Häufig werden in Cloud Native Anwendungen personenbezogene Daten gesammelt und 
 
 Es ist wichtig zu verstehen, wie der Cloud-Anbieter mit den gespeicherten Daten umgeht. Unterschiedliche Länder und Regionen haben unterschiedliche Datenschutzgesetze und -vorschriften. Es ist wichtig sicherzustellen, dass der Cloud-Anbieter die erforderlichen rechtlichen Anforderungen erfüllt, insbesondere wenn es um die Speicherung und Verarbeitung sensibler Daten geht.
 
-In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Verwaltung von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
+In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Dokumentation von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
 
 ## 2.6 Fazit
 
-Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen, allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachtet. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch je Anwendungsfall separat geprüft werden muss.
+Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen. Allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachtet. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch immer je Anwendungsfall separat geprüft werden muss.
 
 # 3. Autoren
 - Laura Bernert
