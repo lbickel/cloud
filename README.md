@@ -112,7 +112,7 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 - Monitoring: Die Monitoring-Tools Prometheus und Grafana ermöglichen, die Überwachung von Protokollen, Metriken und der Performance. Das führt dazu, dass Probleme frühzeitig erkannt und schnell behoben werden können.
 
-- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz in Form von Datenbank-Replikationen, sowie Backend- und Frontend-Servern ist unsere Anwendung besonders widerstandsfähig gegenüber Störungen. Zusätzlich könnte bei Bedarf eine automatische Skalierung und Fehlertoleranzmechanismen genutzt werden.
+- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz in Form von Datenbank-Replikationen sowie Replikationen der Backend- und Frontend-Servern ist unsere Anwendung besonders widerstandsfähig gegenüber Störungen. Zusätzlich könnte bei Bedarf eine automatische Skalierung und Fehlertoleranzmechanismen genutzt werden.
 
 ## 2.3 Nachteile aus Realisierung als Cloud Native
 
