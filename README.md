@@ -29,12 +29,18 @@ minikube tunnel (in neuem Terminal)
 Die Anwendung kann dann unter "localhost" im Browser aufgerufen werden.
 
 Zur Anmeldung in der Anwendung können folgende Anmeldeinformationen genutzt werden:
+
+Für Tenant 1
 - Benutzername: user1
 - Passwort: password1
 
+Für Tenant 2
+- Benutzername: user2
+- Passwort: password2
+
 ## 1.2 Zielsetzung
 
-Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen werden müssen.
+Es soll eine Multi-Tenancy-Anwendung bereitgestellt werden, um Wartungen an Systemen und Geräten zu dokumentieren. Kunden der Anwendungen könnten jegliche Unternehmen sein, welche Wartungen durchführen müssen. Die Idee der Anwendung stammt aus der Branche der Gebäudeautomatisierung, da hier besonders häufig Wartungen vorgenommen und standardisiert (z.B. nach AMEV) dokumentiert werden müssen.
 
 Um die Zielsetzung noch etwas zu schärfen, wird der Begriff Multi-Tenancy etwas näher betrachtet. Multi-Tenancy ist der englische Begriff für Mandantenfähigkeit. Mandantenfähigkeit ist die Eigenschaft eines Systems, die es verschiedenen Kunden (Mandanten) ermöglicht, die Ressourcen eines Systems transparent gemeinsam zu nutzen und dabei das System nach ihren individuellen Bedürfnissen zu konfigurieren. Tenant ist dabei der englische Begriff für Mandant und definiert eine Gruppe von Nutzern, die eine gemeinsame Sicht auf die Daten haben. Für unsere Anwendung würde ein Tenant einem Unternehmen entsprechen, welches Wartungen von Systemen und Geräten dokumentiert. Eine Multi-Tenancy-Anwendung sollte folgende Eigenschaften erfüllen: Anpassbarkeit, Wartbarkeit, Ressourcenteilung, Performance-Isolation, Skalierbarkeit, Fehlertoleranz und Sicherheit. Unser Ziel ist es, ganz besonders den Aspekt der Skalierbarkeit zu berücksichtigen und somit eine möglichst skalierbare Anwendung zur Verfügung zu stellen.
 
@@ -96,17 +102,17 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 ## 2.2 Vorteile aus Realisierung als Cloud Native
 
-- Skalierbarkeit und Ressourcennutzung: Unsere Anwendung kann flexibel auf wachsende Lasten reagieren. Sie kann durch das Hinzufügen von Datenbank-Instanzen sowie Servern für das Frontend horizontal skaliert werden. Auf diese Weise ist eine effiziente Nutzung der Ressourcen möglich.
+- Skalierbarkeit und Ressourcennutzung: Unsere Anwendung kann flexibel auf wachsende Lasten reagieren. Sie kann durch das Hinzufügen von Datenbank-Instanzen sowie Servern für das Backend und das Frontend horizontal skaliert werden. Auf diese Weise ist eine effiziente Nutzung der Ressourcen möglich.
 
 - Isolation und Portabilität: Die Container garantieren, dass unsere Anwendung in der gleichen Umgebung ausgeführt wird, in der sie entwickelt und getestet wurde. Dadurch werden Probleme vermieden, die durch Unterschiede zwischen Entwicklungs-, Test- und Produktionsumgebungen verursacht werden könnten. Zudem ist die Portabilität gegeben. Das bedeutet, dass die Container problemlos zwischen verschiedenen Infrastrukturen verschoben werden können. Das schnelle Starten von Containern ermöglicht eine agile Bereitstellung der Anwendung. Die Verwaltung und Orchestrierung der Container ist mithilfe von Kubernetes einfach möglich.
 
-- Automatisierung: Die Cloud Native Anwendung ermöglicht eine automatisierte Bereitstellung, Wartung und Verwaltung. Durch Continous Integration (CI) und Continous Deployment (CD) Prozesse können Updates und Releases schnell und zuverlässig durchgeführt werden.
+- Automatisierung: Die Cloud Native Anwendung ermöglicht eine automatisierte Bereitstellung, Wartung und Verwaltung. Durch Continuous Integration (CI) und Continuous Deployment (CD) Prozesse können Updates und Releases schnell und zuverlässig durchgeführt werden.
 
 - Erreichbarkeit über Internet: Die Anwendung kann über das Internet einfach zugänglich gemacht werden. Durch den Einsatz von Load-Balancing und Reverse-Proxies können Anfragen effizient verteilt und die Verfügbarkeit der Anwendung verbessert werden.
 
 - Monitoring: Die Monitoring-Tools Prometheus und Grafana ermöglichen, die Überwachung von Protokollen, Metriken und der Performance. Das führt dazu, dass Probleme frühzeitig erkannt und schnell behoben werden können.
 
-- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz in Form von Datenbank-Replikationen ist unsere Anwendung besonders widerstandsfähig gegenüber Störungen. Zusätzlich könnte bei Bedarf eine automatische Skalierung und Fehlertoleranzmechanismen genutzt werden.
+- Resilienz und Ausfallsicherheit: Cloud Native Anwendungen sind darauf ausgelegt, Ausfälle zu minimieren und sich schnell zu erholen. Durch die Verwendung von Redundanz in Form von Datenbank-Replikationen, sowie Backend- und Frontend-Servern ist unsere Anwendung besonders widerstandsfähig gegenüber Störungen. Zusätzlich könnte bei Bedarf eine automatische Skalierung und Fehlertoleranzmechanismen genutzt werden.
 
 ## 2.3 Nachteile aus Realisierung als Cloud Native
 
