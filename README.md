@@ -85,7 +85,7 @@ Unserer Anwendung zur Dokumentation von Wartungen hat drei wesentliche Funktione
 
 Wie aus dem Architektur-Schaubild hervorgeht, gibt es in unserer Anwendung pro Tenant eine Datenbank. Unser Ziel war es, eine möglichst skalierbare Anwendung zur Verfügung zu stellen, weshalb die Bereitstellung der skalierbaren Postgres eine Herausforderung darstellte. In jeder bereitgestellten Ressource in Kubernetes müssen dieselben Daten zu jedem Zeitpunkt verfügbar sein. Um dies zu ermöglichen, arbeiten wir mit dem Postgres-Operator "Kubegres" (https://www.kubegres.io/doc/getting-started.html). Dafür wird ein Kubernetes-Objekt vom Typ Kubegres konfiguriert, welches mit einem Secret und einer ConfigMap arbeitet. Diese Ressourcen haben wir ebenfalls konfiguriert.
 
-Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replicas hinweg zur Verfügung zu stellen. Neben den Datenbanken sind auch die Frontend-Server beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenancy-Anwendung zur Dokumentation von Wartungen verwirklichen.
+Mit diesem Lösungsansatz ist es uns gelungen, eine konsistente und persistente Postgres über mehrere Replikationen hinweg zur Verfügung zu stellen. Neben den Datenbanken sind auch die Frontend-Server beliebig skalierbar. Somit konnten wir unser Ziel einer möglichst skalierbaren Multi-Tenancy-Anwendung zur Dokumentation von Wartungen verwirklichen.
 
 # 2. Diskussion der Cloud Native Anwendung (Teil von Herrn Sturm)
 
