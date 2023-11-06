@@ -138,7 +138,11 @@ Häufig werden in Cloud Native Anwendungen personenbezogene Daten gesammelt und 
 
 Es ist wichtig zu verstehen, wie der Cloud-Anbieter mit den gespeicherten Daten umgeht. Unterschiedliche Länder und Regionen haben unterschiedliche Datenschutzgesetze und -vorschriften. Es ist wichtig sicherzustellen, dass der Cloud-Anbieter die erforderlichen rechtlichen Anforderungen erfüllt, insbesondere wenn es um die Speicherung und Verarbeitung sensibler Daten geht.
 
-In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Dokumentation von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
+In unserer Anwendung werden als personenbezogene Daten nur der Name der Person, welche die Wartung durchgeführt hat, verwaltet. Hierfür ist die DSGVO relevant. Allerdings ist im Fall der Anwendung zur Dokumentation von Wartungen der Datenschutz und die Datensicherheit nicht als besonders kritisch zu betrachten. Grund hierfür ist, dass im Falle eines Systemausfalls keine Personenschäden, finanzielle Verluste oder Eigentumsgefährdungen zu befürchten sind. Der Geschäftsprozess ist zwar beeinträchtigt, kann aber zu einem späteren Zeitpunkt abgeschlossen werden. Das Gefährdungspotential ist deshalb als niedrig einzustufen. 
+Interessant wird es nur, wenn Unternehmen die Anwendung nutzen möchten, welche streng geheime Systeme und Geräte verwalten. Für diese Unternehmen ist die Cloud Native Anwendung ungeeignet.
+
+Für den Produktiveinsatz ist Sorge zu tragen, dass das System die IT-Sicherheitsziele vollständig erfüllt. Insbesondere die Vertraulichkeit, die Integrität sowie die Verfügbarkeit der Daten muss gewährleistet sein. Die Daten müssen ebenfalls beim Übertragen verschlüsselt werden. Für diesen Zweck kann beispielsweise auf die OpenSSL-Bibliothek zurückgegriffen werden. 
+Darüber hinaus ist ein geeignetes Identity und Access Management zu implementieren, welches nur berechtigten Personen den Zugriff auf die Daten ermöglicht.
 
 ## 2.6 Fazit
 
