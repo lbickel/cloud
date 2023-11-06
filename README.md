@@ -149,7 +149,7 @@ Darüber hinaus ist ein geeignetes Identity und Access Management zu implementie
 Die Implementierung der Anwendung als Cloud Native Anwendung hat zahlreiche Vorteile mit sich gebracht. Besonders sind an dieser Stelle die Skalierbarkeit, die Automatisierung und das Monitoring hervorzuheben. Als größter Nachteil ist der Datenschutz und die Datensicherheit zu nennen. Allerdings ist dies für unsere Anwendung nicht als hochkritisch zu betrachten. Zusammenfassend kann somit gesagt werden, dass die Implementierung als Cloud Native Anwendung in unserem Fall sinnvoll war, dies jedoch immer je Anwendungsfall separat geprüft werden muss.
 
 # 3. Autoren
-- Laura Bernert
-- Linda Bickel
-- Sergej Bryan Vizgalov
-- Benjamin Wolf
+- Laura Bernert (7686060)
+- Linda Bickel (2929482)
+- Sergej Bryan Vizgalov (6961809)
+- Benjamin Wolf (4354642)
