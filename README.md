@@ -128,7 +128,9 @@ All diese Prinzipien werden von unserer App erfüllt, weshalb es sich um eine Cl
 
 ## 2.4 Alternative Realisierungsmöglichkeiten mit kritischer Erörterung
 
-Es wäre auch denkbar, die Anwendung mit einem Backend- und einem Frontend-Server zu bauen und keine Container zu nutzen. Auf diese Weise wäre die Architektur deutlich einfacher gewesen. Das Problem wäre allerdings gewesen, dass die Anwendung nicht skalierbar wäre. Falls die Anwendung irgendwann von einer Vielzahl an Kunden genutzt wird und die Server Lastspitzen erreichen, ist eine Erweiterung der Ressourcen nicht einfach möglich. Das könnte dazu führen, dass Kunden abspringen und es zu Geldeinbußen aufgrund der fehlenden Skalierbarkeit kommt. Zudem könnte es bei einer fehlenden Containerisierung zu Portabilitätsproblemen kommen. Auch die Wartung und das Einspielen von Updates ist deutlich erschwert.
+Es wäre auch denkbar, die Anwendung mit einem Backend- und einem Frontend-Server monolithisch zu bauen und keine Container zu nutzen. Auf diese Weise wäre die Architektur deutlich einfacher gewesen. Das Problem wäre allerdings gewesen, dass die Anwendung nicht skalierbar wäre. Falls die Anwendung irgendwann von einer Vielzahl an Kunden genutzt wird und die Server Lastspitzen erreichen, ist eine Erweiterung der Ressourcen nicht einfach möglich. Das könnte dazu führen, dass Kunden abspringen und es zu Geldeinbußen aufgrund der fehlenden Skalierbarkeit kommt. Zudem könnte es bei einer fehlenden Containerisierung zu Portabilitätsproblemen kommen. Auch die Wartung und das Einspielen von Updates ist deutlich erschwert.
+
+Alternativ ist eine Realisierung als On-Premise-Lösung denkbar, um den Kunden die Möglichkeit zu bieten, die Anwendung im eigenen Rechenzentrum zu betreiben. Dies erlaubt den Kunden die Hoheit über die eigenen Daten zu behalten, erfordert jedoch erhebliche Investitionen in Hardware und Wartung. 
 
 ## 2.5 Gewährleistung des Datenschutzes und der Datensicherheit
 
